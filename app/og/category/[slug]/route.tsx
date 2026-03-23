@@ -10,15 +10,12 @@ export async function GET(
   const { searchParams } = new URL(req.url);
   const slug = params.slug;
 
-  // Title and author can be passed as query params from generateMetadata,
-  // or we derive a readable title from the slug as fallback.
-  const title =
-    searchParams.get('title') ??
+  const name =
+    searchParams.get('name') ??
     slug
       .split('-')
       .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
       .join(' ');
-  const author = searchParams.get('author') ?? '';
   const description = searchParams.get('desc') ?? '';
 
   return new ImageResponse(
@@ -35,40 +32,37 @@ export async function GET(
           padding: '80px',
         }}
       >
-        {/* Title */}
         <div
           style={{
-            fontSize: title.length > 40 ? '52px' : '64px',
+            fontSize: '20px',
+            color: 'hsl(210,80%,52%)',
+            letterSpacing: '4px',
+            textTransform: 'uppercase',
+            marginBottom: '24px',
+          }}
+        >
+          Collection
+        </div>
+
+        <div
+          style={{
+            fontSize: name.length > 30 ? '56px' : '72px',
             fontWeight: 700,
             color: '#f5f0e8',
             lineHeight: 1.1,
-            marginBottom: '20px',
-            maxWidth: '1000px',
+            marginBottom: '24px',
+            maxWidth: '960px',
           }}
         >
-          {title}
+          {name}
         </div>
 
-        {/* Author */}
-        {author && (
-          <div
-            style={{
-              fontSize: '28px',
-              color: 'hsl(208,70%,68%)',
-              marginBottom: '24px',
-            }}
-          >
-            {author}
-          </div>
-        )}
-
-        {/* Description */}
         {description && (
           <div
             style={{
-              fontSize: '20px',
-              color: 'rgba(245,240,232,0.65)',
-              maxWidth: '860px',
+              fontSize: '24px',
+              color: 'rgba(245,240,232,0.7)',
+              maxWidth: '800px',
               lineHeight: 1.5,
             }}
           >
@@ -76,7 +70,6 @@ export async function GET(
           </div>
         )}
 
-        {/* Site name */}
         <div
           style={{
             position: 'absolute',
@@ -91,7 +84,6 @@ export async function GET(
           The Existential Bookstore
         </div>
 
-        {/* Accent line */}
         <div
           style={{
             position: 'absolute',

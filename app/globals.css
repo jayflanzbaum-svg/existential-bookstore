@@ -1,3 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 20% 98%; --foreground: 220 25% 14%;
+    --card: 0 0% 100%; --card-foreground: 220 25% 14%;
+    --primary: 220 60% 28%; --primary-foreground: 210 20% 98%;
+    --secondary: 215 20% 94%; --secondary-foreground: 220 25% 14%;
+    --muted: 215 15% 93%; --muted-foreground: 215 10% 46%;
+    --accent: 210 80% 52%; --accent-foreground: 0 0% 100%;
+    --border: 215 18% 89%; --ring: 210 80% 52%; --radius: 0.5rem;
+    --navy: 220 60% 28%; --navy-light: 218 45% 40%; --navy-deep: 222 65% 18%;
+    --sky: 210 80% 52%; --sky-light: 208 70% 68%;
+    --coral: 12 70% 62%; --pearl: 210 20% 98%;
+  }
+}
+
+@layer utilities {
+  .gradient-navy { background: linear-gradient(135deg, hsl(var(--navy-deep)) 0%, hsl(var(--navy)) 100%); }
+  .gradient-hero { background: linear-gradient(135deg, hsl(var(--navy-deep)) 0%, hsl(var(--navy)) 50%, hsl(var(--navy-light)) 100%); }
+  .shadow-editorial { box-shadow: 0 1px 3px hsl(var(--navy-deep) / 0.06), 0 8px 24px hsl(var(--navy-deep) / 0.06); }
+  .shadow-lift { box-shadow: 0 2px 8px hsl(var(--navy-deep) / 0.06), 0 16px 48px hsl(var(--navy-deep) / 0.1); }
+}

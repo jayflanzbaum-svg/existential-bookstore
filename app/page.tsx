@@ -1,96 +1,225 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
+import { Sparkles } from 'lucide-react';
+import BookCard from '@/components/BookCard';
+import CategoryCard from '@/components/CategoryCard';
+import { getFeaturedReviews, getPersonalizedReviews } from '@/lib/reviews';
+import { getCategories } from '@/lib/categories';
+import { SITE_URL } from '@/lib/siteConfig';
 
 export const metadata: Metadata = {
-  title: 'Existential Bookstore',
+  title: 'The Existential Bookstore — Books for the Insatiably Curious',
   description:
-    'A curated collection of book reviews spanning existentialism, Beat Generation, magical realism, science fiction, and the philosophy of making things.',
+    'A curated journey through fiction, philosophy, art, technology, business and the humanities.',
   openGraph: {
-    title: 'Existential Bookstore',
-    description: 'Books that make you question everything.',
-    url: 'https://existentialbookstore.vercel.app',
-    siteName: 'Existential Bookstore',
-    images: [
-      {
-        url: '/og/home',
-        width: 1200,
-        height: 630,
-        alt: 'Existential Bookstore — Books that make you question everything',
-      },
-    ],
+    title: 'The Existential Bookstore',
+    description: 'Books for the insatiably curious.',
+    url: SITE_URL,
+    siteName: 'The Existential Bookstore',
+    images: [{ url: '/og/home', width: 1200, height: 630, alt: 'The Existential Bookstore' }],
     type: 'website',
   },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Existential Bookstore',
-    description: 'Books that make you question everything.',
-    images: ['/og/home'],
-  },
+  twitter: { card: 'summary_large_image', images: ['/og/home'] },
 };
 
 export default function HomePage() {
-  return (
-    <main className="min-h-screen px-6 py-16 max-w-2xl mx-auto">
-      <header className="mb-16">
-        <h1
-          className="text-4xl font-bold tracking-tight mb-4"
-          style={{ color: '#f5f0e8' }}
-        >
-          Existential Bookstore
-        </h1>
-        <p className="text-xl italic mb-6" style={{ color: '#c8c0b0' }}>
-          Books that make you question everything.
-        </p>
-        <p className="leading-relaxed" style={{ color: '#a09880' }}>
-          A curated collection of reviews spanning existentialism, Beat
-          Generation, magical realism, science fiction, and the philosophy of
-          making things. These are books that don&apos;t just tell stories —
-          they rearrange the furniture of your mind. Each review is a record of
-          a reading that changed something, however slightly, in the way the
-          world looked afterward.
-        </p>
-      </header>
+  const personalized = getPersonalizedReviews().slice(0, 3);
+  const featured = getFeaturedReviews().slice(0, 8);
+  const categories = getCategories().slice(0, 6);
 
-      <section>
-        <h2
-          className="text-xs uppercase tracking-widest mb-6"
-          style={{ color: '#a09880' }}
-        >
-          Featured Review
-        </h2>
-        <Link
-          href="/reviews/my-side-of-the-mountain"
-          className="block group"
-        >
-          <article
-            className="border rounded-lg p-6 transition-colors"
-            style={{
-              borderColor: '#2e2e4e',
-              backgroundColor: '#12121e',
-            }}
-          >
-            <p
-              className="text-xs uppercase tracking-widest mb-2"
-              style={{ color: '#6060a0' }}
+  return (
+    <>
+      {/* ── HERO ─────────────────────────────────────────────────── */}
+      <section className="relative min-h-[24vh] md:min-h-[30vh] flex items-center">
+        {/* Background image */}
+        <Image
+          src="/images/hero-bookshelf.jpg"
+          alt="Bookshelf"
+          fill
+          className="object-cover"
+          priority
+        />
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-deep/95 via-navy-deep/85 to-navy/50" />
+
+        {/* Foreground content */}
+        <div className="relative z-10 container mx-auto px-4 md:px-6 py-16 md:py-24">
+          <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 animate-slide-up max-w-3xl leading-tight">
+            Books for the insatiably curious
+          </h1>
+          <p className="font-body text-base md:text-lg text-primary-foreground/75 mb-8 max-w-xl animate-fade-in">
+            A curated journey through fiction, philosophy, art, technology,
+            business and the humanities.
+          </p>
+          <div className="flex flex-wrap gap-4 animate-fade-in">
+            <Link
+              href="/categories"
+              className="inline-flex items-center px-6 py-3 rounded-md bg-accent text-accent-foreground font-body font-medium hover:bg-accent/90 transition-colors"
             >
-              Childhood Classics
-            </p>
-            <h3
-              className="text-2xl font-semibold mb-1 group-hover:underline"
-              style={{ color: '#f5f0e8' }}
+              Browse Collection
+            </Link>
+            <Link
+              href="/about"
+              className="inline-flex items-center px-6 py-3 rounded-md border border-primary-foreground/40 text-primary-foreground font-body font-medium hover:bg-primary-foreground/10 transition-colors"
             >
-              My Side of the Mountain
-            </h3>
-            <p className="text-sm mb-3" style={{ color: '#a09880' }}>
-              Jean Craighead George
-            </p>
-            <p className="leading-relaxed text-sm" style={{ color: '#c8c0b0' }}>
-              A boy, a falcon, and a hollow tree: the book that taught me
-              solitude could be chosen, not just endured.
-            </p>
-          </article>
-        </Link>
+              Our Story
+            </Link>
+          </div>
+        </div>
       </section>
-    </main>
+
+      {/* ── PULL QUOTE ───────────────────────────────────────────── */}
+      <section className="py-4 bg-muted border-b border-border">
+        <div className="container mx-auto px-4 md:px-6 text-center">
+          <div className="h-0.5 w-12 bg-accent mx-auto mb-4" />
+          <blockquote>
+            <p className="font-display text-2xl md:text-3xl font-bold text-foreground mb-2">
+              My Books. My Thoughts. My Journey.
+            </p>
+            <p className="font-body italic text-muted-foreground text-sm">
+              Every book left a mark. This is the trail.
+            </p>
+          </blockquote>
+          <div className="h-0.5 w-12 bg-accent mx-auto mt-4 mb-2" />
+          <Link
+            href="/about"
+            className="text-accent text-sm font-body hover:underline"
+          >
+            Learn more about this project →
+          </Link>
+        </div>
+      </section>
+
+      {/* ── LATEST REVIEWS ───────────────────────────────────────── */}
+      <section className="py-10 bg-muted/40 border-b border-border">
+        <div className="container mx-auto px-4 md:px-6">
+          <p className="text-xs uppercase tracking-widest text-accent font-body mb-2">
+            Fresh Off the Shelf
+          </p>
+          <h2 className="font-display text-3xl font-bold text-foreground mb-8">
+            Latest Reviews
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {personalized.map((review) => (
+              <Link
+                key={review.slug}
+                href={`/reviews/${review.slug}`}
+                className="group block"
+              >
+                <div className="bg-card border border-border rounded-lg overflow-hidden shadow-editorial hover:shadow-lift transition-shadow duration-300">
+                  {/* Cover area */}
+                  <div className="relative gradient-navy flex items-center justify-center h-48 overflow-hidden">
+                    {review.coverUrl ? (
+                      <Image
+                        src={review.coverUrl}
+                        alt={review.title}
+                        fill
+                        className="object-cover object-center opacity-80"
+                        sizes="(max-width: 768px) 100vw, 33vw"
+                      />
+                    ) : null}
+                    {/* Editor's Pick badge */}
+                    <div className="absolute top-3 left-3 z-10 flex items-center gap-1 bg-accent text-accent-foreground text-xs font-body px-2 py-1 rounded-full">
+                      <Sparkles size={11} />
+                      Editor&apos;s Pick
+                    </div>
+                  </div>
+
+                  {/* Card body */}
+                  <div className="p-4">
+                    <p className="font-display text-base font-semibold text-foreground group-hover:text-accent transition-colors mb-1">
+                      {review.title}
+                    </p>
+                    <p className="font-body text-xs text-muted-foreground mb-2">
+                      {review.author}
+                    </p>
+                    <p className="font-body text-sm text-muted-foreground line-clamp-2 mb-3">
+                      {review.ogDescription}
+                    </p>
+                    <span className="text-accent text-xs font-body hover:underline">
+                      Read the review →
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── FEATURED REVIEWS ─────────────────────────────────────── */}
+      <section className="py-20 bg-background">
+        <div className="container mx-auto px-4 md:px-6">
+          <p className="text-xs uppercase tracking-widest text-accent font-body mb-2">
+            Selected
+          </p>
+          <h2 className="font-display text-3xl font-bold text-foreground mb-8">
+            Featured Reviews
+          </h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+            {featured.map((review, i) => (
+              <BookCard
+                key={review.slug}
+                title={review.title}
+                author={review.author}
+                slug={review.slug}
+                coverUrl={review.coverUrl}
+                rating={review.rating}
+                index={i}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── BROWSE CATEGORIES ────────────────────────────────────── */}
+      <section className="py-20 bg-sky/10">
+        <div className="container mx-auto px-4 md:px-6">
+          <p className="text-xs uppercase tracking-widest text-accent font-body mb-2">
+            Browse
+          </p>
+          <h2 className="font-display text-3xl font-bold text-foreground mb-8">
+            Explore by Category
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+            {categories.map((cat, i) => (
+              <CategoryCard
+                key={cat.slug}
+                name={cat.name}
+                slug={cat.slug}
+                icon={cat.icon}
+                description={cat.description}
+                bookCount={cat.bookCount}
+                index={i}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── NEWSLETTER CTA ───────────────────────────────────────── */}
+      <section className="py-24 gradient-navy text-center">
+        <div className="container mx-auto px-4 md:px-6">
+          <p className="text-xs uppercase tracking-widest text-sky-light font-body mb-4">
+            Stay Connected
+          </p>
+          <h2 className="font-display text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
+            Join the Reading Circle
+          </h2>
+          <p className="font-body text-primary-foreground/70 max-w-md mx-auto mb-8">
+            New reviews, curated reading lists, and the occasional dispatch
+            from the stacks — delivered to your inbox.
+          </p>
+          <Link
+            href="/newsletter"
+            className="inline-flex items-center px-8 py-3 rounded-md bg-sky text-accent-foreground font-body font-medium hover:bg-sky/90 transition-colors"
+          >
+            Subscribe
+          </Link>
+        </div>
+      </section>
+    </>
   );
 }

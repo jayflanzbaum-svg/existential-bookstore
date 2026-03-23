@@ -1,16 +1,16 @@
 import type { Metadata } from 'next';
+import SiteHeader from '@/components/SiteHeader';
+import SiteFooter from '@/components/SiteFooter';
+import { SITE_NAME, SITE_URL, SITE_DESCRIPTION } from '@/lib/siteConfig';
 import './globals.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL ?? 'https://existential-bookstore.vercel.app'
-  ),
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: 'Existential Bookstore',
-    template: '%s — Existential Bookstore',
+    default: SITE_NAME,
+    template: `%s — ${SITE_NAME}`,
   },
-  description:
-    'A curated collection of book reviews spanning existentialism, Beat Generation, magical realism, science fiction, and the philosophy of making things.',
+  description: SITE_DESCRIPTION,
 };
 
 export default function RootLayout({
@@ -20,8 +20,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body style={{ backgroundColor: '#1a1a2e', color: '#f5f0e8' }}>
-        {children}
+      <body className="bg-background text-foreground font-body antialiased min-h-screen flex flex-col">
+        <SiteHeader />
+        <main className="flex-1">{children}</main>
+        <SiteFooter />
       </body>
     </html>
   );

@@ -1,6 +1,11 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import Image from 'next/image';
+import Link from 'next/link';
+import { MDXRemote } from 'next-mdx-remote/rsc';
+import { Star } from 'lucide-react';
 import { getReviewBySlug, getAllReviewSlugs } from '@/lib/reviews';
+import { SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 
 interface Props {
   params: { slug: string };
@@ -19,16 +24,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return {
-    title: review.title,
+    title: `${review.title} by ${review.author}`,
     description: review.ogDescription,
     openGraph: {
       title: `${review.title} by ${review.author}`,
       description: review.ogDescription,
-      url: `https://existentialbookstore.vercel.app/reviews/${review.slug}`,
-      siteName: 'Existential Bookstore',
+      url: `${SITE_URL}/reviews/${review.slug}`,
+      siteName: SITE_NAME,
       images: [
         {
-          url: `/og/review/${review.slug}?title=${encodeURIComponent(review.title)}&author=${encodeURIComponent(review.author)}`,
+          url: `/og/review/${review.slug}?title=${encodeURIComponent(review.title)}&author=${encodeURIComponent(review.author)}&desc=${encodeURIComponent(review.ogDescription)}`,
           width: 1200,
           height: 630,
           alt: `${review.title} by ${review.author}`,
@@ -38,11 +43,31 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${review.title} by ${review.author}`,
-      description: review.ogDescription,
-      images: [`/og/review/${review.slug}?title=${encodeURIComponent(review.title)}&author=${encodeURIComponent(review.author)}`],
+      images: [`/og/review/${review.slug}?title=${encodeURIComponent(review.title)}&author=${encodeURIComponent(review.author)}&desc=${encodeURIComponent(review.ogDescription)}`],
     },
   };
+}
+
+function StarRating({ rating }: { rating: number }) {
+  const full = Math.floor(rating);
+  return (
+    <div className="flex items-center gap-1">
+      {Array.from({ length: 5 }, (_, i) => (
+        <Star
+          key={i}
+          size={16}
+          style={
+            i < full
+              ? { color: 'hsl(var(--coral))', fill: 'hsl(var(--coral))' }
+              : { color: 'hsl(var(--muted-foreground))' }
+          }
+        />
+      ))}
+      <span className="font-body text-sm text-muted-foreground ml-1">
+        {rating}/5
+      </span>
+    </div>
+  );
 }
 
 export default function ReviewPage({ params }: Props) {
@@ -53,57 +78,81 @@ export default function ReviewPage({ params }: Props) {
     notFound();
   }
 
-  const paragraphs = review.content
-    .trim()
-    .split(/\n\n+/)
-    .filter(Boolean);
-
   return (
-    <main className="min-h-screen px-6 py-16 max-w-2xl mx-auto">
-      <nav className="mb-12">
-        <a
-          href="/"
-          className="text-xs uppercase tracking-widest hover:underline"
-          style={{ color: '#6060a0' }}
+    <div className="bg-background min-h-screen">
+      <div className="container mx-auto px-4 md:px-6 py-12 max-w-3xl">
+        {/* Back link */}
+        <Link
+          href="/categories"
+          className="inline-flex items-center text-sm text-accent hover:underline font-body mb-8"
         >
-          ← Existential Bookstore
-        </a>
-      </nav>
+          ← Back to categories
+        </Link>
 
-      <article>
-        <header className="mb-10">
-          <p
-            className="text-xs uppercase tracking-widest mb-3"
-            style={{ color: '#6060a0' }}
-          >
-            {review.category}
-          </p>
-          <h1
-            className="text-4xl font-bold tracking-tight mb-3"
-            style={{ color: '#f5f0e8' }}
-          >
-            {review.title}
-          </h1>
-          <p className="text-lg" style={{ color: '#a09880' }}>
-            {review.author}
-          </p>
-          <p className="text-sm mt-2" style={{ color: '#6060a0' }}>
-            {new Date(review.publishedAt).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-            })}
-          </p>
-        </header>
+        <article>
+          <div className="flex flex-col md:flex-row gap-8 mb-10">
+            {/* Cover */}
+            {review.coverUrl && (
+              <div className="flex-shrink-0">
+                <div className="relative w-[160px] md:w-[200px] shadow-lift rounded-md overflow-hidden">
+                  <Image
+                    src={review.coverUrl}
+                    alt={`${review.title} cover`}
+                    width={200}
+                    height={300}
+                    className="object-cover w-full"
+                  />
+                </div>
+              </div>
+            )}
 
-        <div className="space-y-5">
-          {paragraphs.map((para, i) => (
-            <p key={i} className="leading-relaxed" style={{ color: '#c8c0b0' }}>
-              {para.trim()}
+            {/* Meta */}
+            <div className="flex-1">
+              {/* Category badge */}
+              <span className="inline-block text-xs font-body font-medium text-accent-foreground bg-accent px-2.5 py-0.5 rounded-full mb-4">
+                {review.category}
+              </span>
+
+              <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-2 leading-tight">
+                {review.title}
+              </h1>
+              <p className="font-body text-lg text-muted-foreground mb-4">
+                {review.author}
+              </p>
+              <StarRating rating={review.rating} />
+
+              <p className="font-body text-xs text-muted-foreground mt-4">
+                Reviewed{' '}
+                {new Date(review.publishedAt).toLocaleDateString('en-US', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                })}
+              </p>
+            </div>
+          </div>
+
+          {/* Body */}
+          <div className="font-body text-foreground leading-[1.85] space-y-5 text-base md:text-[17px]">
+            <MDXRemote source={review.content} />
+          </div>
+
+          {/* Purchase link */}
+          <div className="mt-12 pt-8 border-t border-border">
+            <p className="font-body text-sm text-muted-foreground mb-3">
+              Find this book:
             </p>
-          ))}
-        </div>
-      </article>
-    </main>
+            <a
+              href={`https://www.worldcat.org/search?q=${encodeURIComponent(review.title + ' ' + review.author)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center px-5 py-2.5 rounded-md bg-primary text-primary-foreground font-body text-sm hover:bg-primary/90 transition-colors"
+            >
+              Search your local library →
+            </a>
+          </div>
+        </article>
+      </div>
+    </div>
   );
 }
