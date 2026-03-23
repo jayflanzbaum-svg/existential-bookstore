@@ -9,7 +9,7 @@ export async function GET() {
         style={{
           width: '1200px',
           height: '630px',
-          background: 'linear-gradient(135deg, hsl(222,65%,18%) 0%, hsl(220,60%,28%) 100%)',
+          background: 'linear-gradient(135deg, #10224C 0%, #1D3972 100%)',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
@@ -21,7 +21,7 @@ export async function GET() {
           style={{
             width: '60px',
             height: '3px',
-            backgroundColor: 'hsl(210,80%,52%)',
+            backgroundColor: '#2385E7',
             marginBottom: '32px',
           }}
         />
@@ -42,14 +42,14 @@ export async function GET() {
           style={{
             width: '60px',
             height: '3px',
-            backgroundColor: 'hsl(210,80%,52%)',
+            backgroundColor: '#2385E7',
             marginBottom: '24px',
           }}
         />
         <div
           style={{
             fontSize: '32px',
-            color: 'hsl(208,70%,68%)',
+            color: '#74B1E7',
             letterSpacing: '1px',
           }}
         >

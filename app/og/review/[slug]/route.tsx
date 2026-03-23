@@ -10,8 +10,6 @@ export async function GET(
   const { searchParams } = new URL(req.url);
   const slug = params.slug;
 
-  // Title and author can be passed as query params from generateMetadata,
-  // or we derive a readable title from the slug as fallback.
   const title =
     searchParams.get('title') ??
     slug
@@ -27,7 +25,7 @@ export async function GET(
         style={{
           width: '1200px',
           height: '630px',
-          background: 'linear-gradient(135deg, hsl(222,65%,18%) 0%, hsl(220,60%,28%) 100%)',
+          background: 'linear-gradient(135deg, #10224C 0%, #1D3972 100%)',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
@@ -54,7 +52,7 @@ export async function GET(
           <div
             style={{
               fontSize: '28px',
-              color: 'hsl(208,70%,68%)',
+              color: '#74B1E7',
               marginBottom: '24px',
             }}
           >
@@ -99,7 +97,7 @@ export async function GET(
             left: '0px',
             width: '100%',
             height: '4px',
-            backgroundColor: 'hsl(210,80%,52%)',
+            backgroundColor: '#2385E7',
           }}
         />
       </div>
