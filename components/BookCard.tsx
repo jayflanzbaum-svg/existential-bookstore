@@ -14,23 +14,6 @@ interface BookCardProps {
   index?: number;
 }
 
-function StarRating({ rating }: { rating: number }) {
-  const full = Math.floor(rating);
-  const stars = Array.from({ length: 5 }, (_, i) => i < full);
-  return (
-    <div className="flex items-center gap-0.5">
-      {stars.map((filled, i) => (
-        <Star
-          key={i}
-          size={12}
-          className={filled ? 'fill-coral text-coral' : 'text-muted-foreground'}
-          style={filled ? { color: 'hsl(var(--coral))', fill: 'hsl(var(--coral))' } : {}}
-        />
-      ))}
-    </div>
-  );
-}
-
 export default function BookCard({
   title,
   author,
@@ -41,41 +24,46 @@ export default function BookCard({
 }: BookCardProps) {
   return (
     <motion.div
+      className="h-full"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.08, ease: 'easeOut' }}
     >
-      <Link href={`/reviews/${slug}`} className="group block">
-        <div className="bg-card border border-border rounded-lg overflow-hidden shadow-editorial hover:shadow-lift transition-shadow duration-300">
-          {/* Cover image — 2:3 aspect ratio */}
-          <div className="relative w-full" style={{ paddingBottom: '150%' }}>
+      <Link href={`/reviews/${slug}`} className="group block h-full">
+        <div className="bg-card border border-border rounded-lg overflow-hidden shadow-editorial hover:shadow-lift transition-all duration-300 h-full flex flex-col">
+          {/* Cover — 2:3 aspect ratio */}
+          <div className="aspect-[2/3] overflow-hidden flex-shrink-0">
             {coverUrl ? (
               <Image
                 src={coverUrl}
                 alt={`${title} by ${author}`}
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                width={300}
+                height={450}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw"
               />
             ) : (
-              <div className="absolute inset-0 gradient-navy flex flex-col items-center justify-center p-4 text-center">
+              <div className="w-full h-full gradient-navy flex flex-col items-center justify-center p-4 text-center">
                 <p className="font-display text-sm font-semibold text-primary-foreground leading-snug mb-1">
                   {title}
                 </p>
-                <p className="font-body text-xs text-primary-foreground/60">
-                  {author}
-                </p>
+                <p className="font-body text-xs text-primary-foreground/60">{author}</p>
               </div>
             )}
           </div>
 
           {/* Card body */}
-          <div className="p-3">
-            <p className="font-display text-sm font-semibold text-foreground group-hover:text-accent transition-colors leading-snug mb-0.5 line-clamp-2">
+          <div className="p-4 flex flex-col flex-1">
+            <h3 className="font-display text-sm font-semibold text-foreground group-hover:text-accent transition-colors line-clamp-2">
               {title}
-            </p>
-            <p className="font-body text-xs text-muted-foreground mb-2">{author}</p>
-            <StarRating rating={rating} />
+            </h3>
+            <p className="font-body text-xs text-muted-foreground mt-1 truncate">{author}</p>
+            <div className="flex items-center gap-1 mt-auto pt-2">
+              <Star className="h-3.5 w-3.5 fill-coral text-coral" style={{ color: 'hsl(var(--coral))', fill: 'hsl(var(--coral))' }} />
+              <span className="text-xs font-body text-foreground font-medium">
+                {rating > 0 ? rating.toFixed(1) : '—'}
+              </span>
+            </div>
           </div>
         </div>
       </Link>
