@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { Star } from 'lucide-react';
 import { getReviewBySlug, getAllReviewSlugs } from '@/lib/reviews';
+import PurchaseLinks from '@/components/PurchaseLinks';
 import { SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 
 interface Props {
@@ -33,7 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       siteName: SITE_NAME,
       images: [
         {
-          url: `/og/review/${review.slug}?title=${encodeURIComponent(review.title)}&author=${encodeURIComponent(review.author)}&desc=${encodeURIComponent(review.ogDescription)}`,
+          url: `/og/review/${review.slug}?title=${encodeURIComponent(review.title)}&author=${encodeURIComponent(review.author)}`,
           width: 1200,
           height: 630,
           alt: `${review.title} by ${review.author}`,
@@ -43,7 +44,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
-      images: [`/og/review/${review.slug}?title=${encodeURIComponent(review.title)}&author=${encodeURIComponent(review.author)}&desc=${encodeURIComponent(review.ogDescription)}`],
+      images: [`/og/review/${review.slug}?title=${encodeURIComponent(review.title)}&author=${encodeURIComponent(review.author)}`],
     },
   };
 }
@@ -69,6 +70,23 @@ function StarRating({ rating }: { rating: number }) {
     </div>
   );
 }
+
+const mdxComponents = {
+  a: ({ href, children }: { href?: string; children?: React.ReactNode }) => {
+    if (href?.startsWith('/')) {
+      return (
+        <Link href={href} className="text-accent hover:underline">
+          {children}
+        </Link>
+      );
+    }
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
+        {children}
+      </a>
+    );
+  },
+};
 
 export default function ReviewPage({ params }: Props) {
   let review;
@@ -109,48 +127,39 @@ export default function ReviewPage({ params }: Props) {
             {/* Meta */}
             <div className="flex-1">
               {/* Category badge */}
-              <span className="inline-block text-xs font-body font-medium text-accent-foreground bg-accent px-2.5 py-0.5 rounded-full mb-4">
+              <Link
+                href={`/categories/${review.categorySlug}`}
+                className="inline-block text-xs font-body font-medium text-accent-foreground bg-accent px-2.5 py-0.5 rounded-full mb-4 hover:bg-accent/90 transition-colors"
+              >
                 {review.category}
-              </span>
+              </Link>
 
               <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-2 leading-tight">
                 {review.title}
               </h1>
-              <p className="font-body text-lg text-muted-foreground mb-4">
+              <p className="font-body text-lg text-muted-foreground mb-1">
                 {review.author}
               </p>
-              <StarRating rating={review.rating} />
-
-              <p className="font-body text-xs text-muted-foreground mt-4">
-                Reviewed{' '}
-                {new Date(review.publishedAt).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric',
-                })}
-              </p>
+              {review.publishedYear && (
+                <p className="font-body text-sm text-muted-foreground mb-3">
+                  {review.publishedYear}
+                </p>
+              )}
+              {review.rating > 0 && <StarRating rating={review.rating} />}
             </div>
           </div>
 
           {/* Body */}
-          <div className="font-body text-foreground leading-[1.85] space-y-5 text-base md:text-[17px]">
-            <MDXRemote source={review.content} />
+          <div className="font-body text-foreground leading-[1.85] space-y-5 text-base md:text-[17px] prose prose-neutral max-w-none">
+            <MDXRemote source={review.content} components={mdxComponents} />
           </div>
 
-          {/* Purchase link */}
-          <div className="mt-12 pt-8 border-t border-border">
-            <p className="font-body text-sm text-muted-foreground mb-3">
-              Find this book:
-            </p>
-            <a
-              href={`https://www.worldcat.org/search?q=${encodeURIComponent(review.title + ' ' + review.author)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center px-5 py-2.5 rounded-md bg-primary text-primary-foreground font-body text-sm hover:bg-primary/90 transition-colors"
-            >
-              Search your local library →
-            </a>
-          </div>
+          {/* Purchase links */}
+          {review.purchaseLinks && review.purchaseLinks.length > 0 && (
+            <div className="mt-12 pt-8 border-t border-border">
+              <PurchaseLinks purchaseLinks={review.purchaseLinks} />
+            </div>
+          )}
         </article>
       </div>
     </div>

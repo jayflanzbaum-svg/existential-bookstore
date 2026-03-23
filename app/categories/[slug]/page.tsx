@@ -2,8 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import BookCard from '@/components/BookCard';
-import { getCategoryBySlug, getAllCategorySlugs } from '@/lib/categories';
-import { getReviewsByCategory } from '@/lib/reviews';
+import { getCategoryWithBooks, getAllCategorySlugs } from '@/lib/categories';
 import { SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 
 interface Props {
@@ -17,7 +16,7 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   let category;
   try {
-    category = getCategoryBySlug(params.slug);
+    ({ category } = getCategoryWithBooks(params.slug));
   } catch {
     return {};
   }
@@ -49,13 +48,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default function CategoryPage({ params }: Props) {
   let category;
+  let reviews;
   try {
-    category = getCategoryBySlug(params.slug);
+    ({ category, books: reviews } = getCategoryWithBooks(params.slug));
   } catch {
     notFound();
   }
-
-  const reviews = getReviewsByCategory(category.name);
 
   return (
     <div className="bg-background min-h-screen">
@@ -73,9 +71,15 @@ export default function CategoryPage({ params }: Props) {
         <h1 className="font-display text-4xl font-bold text-foreground mb-3">
           {category.name}
         </h1>
-        <p className="font-body text-muted-foreground max-w-xl mb-12">
+        <p className="font-body text-muted-foreground max-w-xl mb-8">
           {category.description}
         </p>
+
+        {category.content && (
+          <div className="font-body text-foreground leading-relaxed max-w-2xl mb-12 text-base text-muted-foreground border-l-2 border-accent pl-6">
+            {category.content}
+          </div>
+        )}
 
         {reviews.length > 0 ? (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">

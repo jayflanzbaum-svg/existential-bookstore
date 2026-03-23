@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowRight, Feather, Sparkles, Ghost, Wand2, Rocket, Scroll, Hammer, Radio, Music } from 'lucide-react';
+import { ArrowRight, Feather, Sparkles, Ghost, Wand2, Rocket, Scroll, Hammer, Radio, Music, Briefcase, Heart, Compass } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 const iconMap: Record<string, LucideIcon> = {
@@ -15,6 +15,9 @@ const iconMap: Record<string, LucideIcon> = {
   Hammer,
   Radio,
   Music,
+  Briefcase,
+  Heart,
+  Compass,
 };
 
 interface CategoryCardProps {

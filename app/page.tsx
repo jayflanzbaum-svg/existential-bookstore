@@ -24,15 +24,14 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
-  const personalized = getPersonalizedReviews().slice(0, 3);
-  const featured = getFeaturedReviews().slice(0, 8);
+  const personalized = getPersonalizedReviews();
+  const featured = getFeaturedReviews(8);
   const categories = getCategories().slice(0, 6);
 
   return (
     <>
       {/* ── HERO ─────────────────────────────────────────────────── */}
       <section className="relative min-h-[24vh] md:min-h-[30vh] flex items-center">
-        {/* Background image */}
         <Image
           src="/images/hero-bookshelf.jpg"
           alt="Bookshelf"
@@ -40,10 +39,7 @@ export default function HomePage() {
           className="object-cover"
           priority
         />
-        {/* Dark overlay */}
         <div className="absolute inset-0 bg-gradient-to-r from-navy-deep/95 via-navy-deep/85 to-navy/50" />
-
-        {/* Foreground content */}
         <div className="relative z-10 container mx-auto px-4 md:px-6 py-16 md:py-24">
           <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 animate-slide-up max-w-3xl leading-tight">
             Books for the insatiably curious
@@ -82,10 +78,7 @@ export default function HomePage() {
             </p>
           </blockquote>
           <div className="h-0.5 w-12 bg-accent mx-auto mt-4 mb-2" />
-          <Link
-            href="/about"
-            className="text-accent text-sm font-body hover:underline"
-          >
+          <Link href="/about" className="text-accent text-sm font-body hover:underline">
             Learn more about this project →
           </Link>
         </div>
@@ -100,18 +93,12 @@ export default function HomePage() {
           <h2 className="font-display text-3xl font-bold text-foreground mb-8">
             Latest Reviews
           </h2>
-
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {personalized.map((review) => (
-              <Link
-                key={review.slug}
-                href={`/reviews/${review.slug}`}
-                className="group block"
-              >
+              <Link key={review.slug} href={`/reviews/${review.slug}`} className="group block">
                 <div className="bg-card border border-border rounded-lg overflow-hidden shadow-editorial hover:shadow-lift transition-shadow duration-300">
-                  {/* Cover area */}
                   <div className="relative gradient-navy flex items-center justify-center h-48 overflow-hidden">
-                    {review.coverUrl ? (
+                    {review.coverUrl && (
                       <Image
                         src={review.coverUrl}
                         alt={review.title}
@@ -119,22 +106,17 @@ export default function HomePage() {
                         className="object-cover object-center opacity-80"
                         sizes="(max-width: 768px) 100vw, 33vw"
                       />
-                    ) : null}
-                    {/* Editor's Pick badge */}
+                    )}
                     <div className="absolute top-3 left-3 z-10 flex items-center gap-1 bg-accent text-accent-foreground text-xs font-body px-2 py-1 rounded-full">
                       <Sparkles size={11} />
                       Editor&apos;s Pick
                     </div>
                   </div>
-
-                  {/* Card body */}
                   <div className="p-4">
                     <p className="font-display text-base font-semibold text-foreground group-hover:text-accent transition-colors mb-1">
                       {review.title}
                     </p>
-                    <p className="font-body text-xs text-muted-foreground mb-2">
-                      {review.author}
-                    </p>
+                    <p className="font-body text-xs text-muted-foreground mb-2">{review.author}</p>
                     <p className="font-body text-sm text-muted-foreground line-clamp-2 mb-3">
                       {review.ogDescription}
                     </p>
@@ -152,12 +134,8 @@ export default function HomePage() {
       {/* ── FEATURED REVIEWS ─────────────────────────────────────── */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4 md:px-6">
-          <p className="text-xs uppercase tracking-widest text-accent font-body mb-2">
-            Selected
-          </p>
-          <h2 className="font-display text-3xl font-bold text-foreground mb-8">
-            Featured Reviews
-          </h2>
+          <p className="text-xs uppercase tracking-widest text-accent font-body mb-2">Selected</p>
+          <h2 className="font-display text-3xl font-bold text-foreground mb-8">Featured Reviews</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {featured.map((review, i) => (
               <BookCard
@@ -177,9 +155,7 @@ export default function HomePage() {
       {/* ── BROWSE CATEGORIES ────────────────────────────────────── */}
       <section className="py-20 bg-sky/10">
         <div className="container mx-auto px-4 md:px-6">
-          <p className="text-xs uppercase tracking-widest text-accent font-body mb-2">
-            Browse
-          </p>
+          <p className="text-xs uppercase tracking-widest text-accent font-body mb-2">Browse</p>
           <h2 className="font-display text-3xl font-bold text-foreground mb-8">
             Explore by Category
           </h2>
@@ -209,8 +185,8 @@ export default function HomePage() {
             Join the Reading Circle
           </h2>
           <p className="font-body text-primary-foreground/70 max-w-md mx-auto mb-8">
-            New reviews, curated reading lists, and the occasional dispatch
-            from the stacks — delivered to your inbox.
+            New reviews, curated reading lists, and the occasional dispatch from the
+            stacks — delivered to your inbox.
           </p>
           <Link
             href="/newsletter"

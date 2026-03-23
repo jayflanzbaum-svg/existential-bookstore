@@ -1,0 +1,86 @@
+[
+  {
+    "slug": "amateur-radio",
+    "name": "Amateur Radio",
+    "description": "The original social network. Electromagnetic waves, homebrew circuits, and the magic of distant voices.",
+    "content": "Two years ago, I became a licensed amateur radio operator, and it changed how I see the world. There is magic in radio waves\u2014invisible signals traveling through air and space, carrying voices and data across continents without relying on infrastructure or the internet. I am fascinated by the history: Marconi and Tesla, the Foxhole radio built from scraps during wartime, the elegant simplicity of machines that work without electricity grids. I am curious about the current wars between alternating and direct current, about how we learned to transmit information wirelessly. Amateur radio is where my maker philosophy comes alive. I tinker with antennas, experiment with different radio modes, and have built my own bulletin board system that works with packet radio. Through packet radio, I participate in a forwarding network\u2014a mesh of amateur bulletin boards that pass messages over radio waves, independent of the internet. It is resilience. It is community. It is proof that we can still communicate when systems fail. This section celebrates books about radio history, amateur radio technique, emergency communications, and the pioneers who showed us that wireless connection is possible. This collection celebrates these authors and many others I have read who inspire that spirit of curiosity and independence.",
+    "icon": "Radio"
+  },
+  {
+    "slug": "business-productivity",
+    "name": "Business & Productivity",
+    "description": "Strategy, leadership, and the art of getting things done. Books that sharpen how you think, build, and create value.",
+    "content": "The best business books are not really about business at all \u2014 they are about human nature, decision-making, and the systems that shape how we work and live. This collection brings together books on strategy, leadership, productivity, and entrepreneurship that go beyond buzzwords and frameworks. These are the books that changed how I think about building things, managing time, and understanding what it actually takes to create something of lasting value. Whether you are running a company, launching a side project, or simply trying to be more intentional about how you spend your days, these books will challenge and sharpen your thinking.",
+    "icon": "Briefcase"
+  },
+  {
+    "slug": "childhood-classics",
+    "name": "Childhood Classics",
+    "description": "The books that made us readers. The stories that planted seeds of wonder, curiosity, and the love of the written word.",
+    "content": "Every reader has an origin story. Mine began with books left on a curb, a school cafeteria transformed into a bookstore once a year, and the particular joy of discovering that stories could take you somewhere completely different from wherever you were. The books in this section are not necessarily the most literary or the most profound in my collection. They are the ones that made me a reader. They planted seeds that grew into everything else\u2014the Beats, the existentialists, the magical realists, the science fiction writers who warned us about the future. If you are introducing a young reader to books, or if you want to remember what it felt like to read for the pure pleasure of it, this is where to start. This collection celebrates these authors and many others I have read who first showed me what books could do.",
+    "icon": "Heart"
+  },
+  {
+    "slug": "existentialism",
+    "name": "Existentialism",
+    "description": "The weight of freedom, the absurdity of existence, and the courage to define meaning in a universe that offers none.",
+    "content": "After the Beats showed me how to question the world, the existentialists taught me that the questioning itself is the point. These writers\u2014Hermann Hesse, Sartre, Camus, and others\u2014grappled with what it means to exist, to choose, to find meaning in a world that does not hand it to us. They did not offer comfort. They offered clarity. Reading existentialist literature in high school and college, I realized I was not alone in feeling that tension between who I am and who I am supposed to be. These books became mirrors. They asked hard questions about freedom, responsibility, and authenticity. That is what you will find here: literature that refuses easy answers and insists we think deeply about how we live. This collection celebrates these authors and many others I have read who dared to confront existence without flinching.",
+    "icon": "Sparkles"
+  },
+  {
+    "slug": "history-renaissance",
+    "name": "History & the Renaissance",
+    "description": "The great awakening of human potential. Art, science, and the belief that we can remake the world.",
+    "content": "My love of history began with Roman civilization. I was fascinated by how Rome spread its culture and assimilated others through trade and conquest. That led me to the Silk Road, to Marco Polo, to the Age of Discovery. What struck me was this: commerce was not the enemy of culture\u2014it was the vehicle for it. Traders carried not just goods but ideas, philosophies, religions, new ways of seeing the world. My own travels to Asia for business became a way of walking in those same footsteps. Instead of just moving through those countries, I wanted to understand them. I wanted to meet people, taste their food, see their ruins and feel the weight of their history. The humanistic philosophy of the Renaissance speaks to this same impulse: that life is more than survival, more than commerce alone, but that commerce itself can be a bridge to beauty, meaning, and connection. This collection celebrates these authors and many others I have read who helped me follow those threads across centuries and continents.",
+    "icon": "Scroll"
+  },
+  {
+    "slug": "horror-fantasy",
+    "name": "Horror & Fantasy",
+    "description": "Where imagination meets dread. Worlds beyond our own, terrors lurking in shadow, and the thin membrane between reality and nightmare.",
+    "content": "I discovered Stephen King young, probably too young, and I never stopped reading him. What drew me was simple: he had written so much that I could disappear into his worlds for months, for years. There was always another book, another story. But my hunger for immersive worlds extended far beyond King. I devoured J.R.R. Tolkien's Middle-earth the same way\u2014The Hobbit, Lord of the Rings, moving from one epic world to another, never running out of stories. Horror and fantasy taught me that escape is not weakness. These genres create spaces where we can explore fear, wonder, heroism, and meaning in ways reality sometimes will not allow. They remind us that imagination is as real as the ground beneath our feet. This collection celebrates those authors and many others I have read who built worlds that changed how I see my own.",
+    "icon": "Ghost"
+  },
+  {
+    "slug": "magical-realism",
+    "name": "Magical Realism",
+    "description": "The extraordinary woven into the fabric of the everyday. Where myth and reality dance together without apology.",
+    "content": "I have read many books, but One Hundred Years of Solitude by Gabriel Garc\u00eda M\u00e1rquez is truly the greatest story ever told\u2014a title usually reserved for the Bible, but one I believe belongs to this masterpiece. In that novel, yellow flowers fall from the sky. A town suffers from insomnia that lasts for years. Families repeat the same mistakes across generations, locked in cycles they cannot break. And somehow, all of it feels true. Then I discovered Salman Rushdie and The Ground Beneath Her Feet, where mythology and migration collide, and the magical weaves through the ordinary. And Haruki Murakami's Kafka on the Shore, where a character finds solace in a magical library and retreats to a cabin in the woods, discovering that escape and introspection can be transformative. Magical realism taught me that literature does not have to choose between beauty and truth, between the fantastical and the real. The greatest stories weave them together. They show us the magic hidden in ordinary life and the profound truths that hide inside impossible things. This collection celebrates these authors and many others I have read who dared to blend wonder with wisdom.",
+    "icon": "Wand2"
+  },
+  {
+    "slug": "makers-creation",
+    "name": "Makers & Creation",
+    "description": "The joy and discipline of making things. From code to craft, these books celebrate the creative act.",
+    "content": "Beyond books, I am drawn to making. I spend time three-D printing, laser cutting, woodworking, soldering electronics, building with Raspberry Pi and Arduino, writing Python code. There is something deeply satisfying about moving from idea to physical object, about understanding how things work and then building them yourself. Making connects to everything I love about literature and art\u2014it is about creativity, problem-solving, and the human impulse to create meaning. Whether I am reading about the Renaissance or building a circuit board, I am asking the same question: how do we make something beautiful and functional from raw materials and imagination? This section celebrates books about makers, makers' philosophy, DIY culture, and the tools and techniques that let us build the world we want to see. This collection celebrates these authors and many others I have read who inspire that maker spirit.",
+    "icon": "Hammer"
+  },
+  {
+    "slug": "music",
+    "name": "Music",
+    "description": "Sound as philosophy. From jazz improvisation to punk rebellion, music as a way of understanding the world.",
+    "content": "Music has always been woven through my life. I am a drummer, and I built a small home studio as a passion project where I can record music for myself and my family. But my relationship with music goes deeper than playing it\u2014it is how my wife and I speak to each other, how we navigate the world. We communicate through song lyrics, through melodies, through the emotional truths that words alone cannot capture. I have read deeply about musicians and musical artists, about the intersection of creativity and craft, about how music moves us in ways that transcend logic. Whether I am reading about legendary musicians or sitting behind the drums, I am exploring the same question: how do we express what cannot be said? This section celebrates books about music, musicians, music history, and the art of creation through sound. This collection celebrates these authors and many others I have read who capture the magic and meaning of music.",
+    "icon": "Music"
+  },
+  {
+    "slug": "personal-development",
+    "name": "Personal Development",
+    "description": "Books that illuminate the inner journey \u2014 from mindset shifts and habit formation to deeper questions of purpose, resilience, and becoming.",
+    "content": "",
+    "icon": "Compass"
+  },
+  {
+    "slug": "science-fiction",
+    "name": "Science Fiction",
+    "description": "Visions of futures possible and impossible. Technology, humanity, and the eternal question: what does it mean to be alive?",
+    "content": "I came to science fiction through Kurt Vonnegut, a writer who asked absurd questions about war, technology, and what it means to be human. From there, I discovered William Gibson, whose prescient visions of cyberspace and networked futures turned out to be warnings disguised as imagination. Douglas Adams showed me that you could ask profound questions about existence while making people laugh\u2014Hitchhiker's Guide to the Galaxy proved that philosophy and absurdity are not enemies. Then came Neal Stephenson's Anathem, a novel about cloistered intellectuals living in monastic communities, separated from the outside world by centuries or millennia, devoted to pure thought and theory. These writers taught me that science fiction is not escapism. It is warning. It is prophecy. It is a way of asking what happens next, and whether we are ready for it. This collection celebrates these authors and many others I have read who dared to imagine the future honestly.",
+    "icon": "Rocket"
+  },
+  {
+    "slug": "beat-generation",
+    "name": "The Beat Generation",
+    "description": "Spontaneous prose and the restless American spirit. Kerouac, Ginsberg, Burroughs, and the writers who redefined freedom.",
+    "content": "The Beats changed my life. A single teacher's question about Jack Kerouac sent me down a path that taught me to question existence itself, to see the world not as it is but as it could be. These writers were philosophers disguised as rebels. They wrote about wandering, searching, rejecting conformity, and asking what it all means. When I discovered Kerouac's On the Road and Dharma Bums, I was reading about freedom and spiritual seeking at an age when my peers were reading assigned textbooks. The Beats taught me that life was not just something to live\u2014it was something to examine, to question, to feel intensely. They showed me that literature could be a vehicle for philosophy, that a great book could change how you see everything. This collection celebrates those writers and many others I have read who dared to ask dangerous questions and refused easy answers.",
+    "icon": "Feather"
+  }
+]

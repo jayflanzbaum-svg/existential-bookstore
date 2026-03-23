@@ -1,48 +1,41 @@
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
-import { getReviews } from './reviews';
+import categoriesData from './categories.json';
+import { getReviewsByCategory } from './reviews';
 
 export interface Category {
-  name: string;
   slug: string;
-  icon: string;
+  name: string;
   description: string;
+  content: string;
+  icon: string;
   bookCount: number;
 }
 
-const contentDir = path.join(process.cwd(), 'content', 'categories');
-
-export function getCategoryBySlug(slug: string): Category {
-  const filePath = path.join(contentDir, `${slug}.mdx`);
-  const raw = fs.readFileSync(filePath, 'utf-8');
-  const { data } = matter(raw);
-
-  const reviews = getReviews();
-  const bookCount = reviews.filter(
-    (r) => r.category.toLowerCase() === data.name.toLowerCase()
-  ).length;
-
+function hydrate(cat: typeof categoriesData[number]): Category {
   return {
-    name: data.name,
-    slug: data.slug,
-    icon: data.icon,
-    description: data.description,
-    bookCount,
+    ...cat,
+    bookCount: getReviewsByCategory(cat.slug).length,
   };
 }
 
 export function getCategories(): Category[] {
-  const files = fs
-    .readdirSync(contentDir)
-    .filter((f) => f.endsWith('.mdx'));
+  return categoriesData.map(hydrate);
+}
 
-  return files.map((f) => getCategoryBySlug(f.replace(/\.mdx$/, '')));
+export function getCategoryBySlug(slug: string): Category {
+  const cat = categoriesData.find((c) => c.slug === slug);
+  if (!cat) throw new Error(`Category not found: ${slug}`);
+  return hydrate(cat);
 }
 
 export function getAllCategorySlugs(): string[] {
-  return fs
-    .readdirSync(contentDir)
-    .filter((f) => f.endsWith('.mdx'))
-    .map((f) => f.replace(/\.mdx$/, ''));
+  return categoriesData.map((c) => c.slug);
+}
+
+export function getCategoryWithBooks(slug: string): {
+  category: Category;
+  books: ReturnType<typeof getReviewsByCategory>;
+} {
+  const category = getCategoryBySlug(slug);
+  const books = getReviewsByCategory(slug);
+  return { category, books };
 }
