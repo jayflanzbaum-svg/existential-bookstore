@@ -5,7 +5,7 @@ import { SITE_NAME, SITE_URL, SITE_DESCRIPTION } from '@/lib/siteConfig';
 import './globals.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
+  metadataBase: new URL(process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000'),
   title: {
     default: SITE_NAME,
     template: `%s — ${SITE_NAME}`,
