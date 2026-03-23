@@ -1,9 +1,9 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Sparkles } from 'lucide-react';
 import BookCard from '@/components/BookCard';
 import CategoryCard from '@/components/CategoryCard';
+import LatestReviewsSection from '@/components/LatestReviewsSection';
 import { getFeaturedReviews, getPersonalizedReviews } from '@/lib/reviews';
 import { getCategories } from '@/lib/categories';
 import { SITE_URL } from '@/lib/siteConfig';
@@ -93,41 +93,7 @@ export default function HomePage() {
           <h2 className="font-display text-3xl font-bold text-foreground mb-8">
             Latest Reviews
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {personalized.map((review) => (
-              <Link key={review.slug} href={`/reviews/${review.slug}`} className="group block">
-                <div className="bg-card border border-border rounded-lg overflow-hidden shadow-editorial hover:shadow-lift transition-shadow duration-300">
-                  <div className="relative gradient-navy flex items-center justify-center h-48 overflow-hidden">
-                    {review.coverUrl && (
-                      <Image
-                        src={review.coverUrl}
-                        alt={review.title}
-                        fill
-                        className="object-cover object-center opacity-80"
-                        sizes="(max-width: 768px) 100vw, 33vw"
-                      />
-                    )}
-                    <div className="absolute top-3 left-3 z-10 flex items-center gap-1 bg-accent text-accent-foreground text-xs font-body px-2 py-1 rounded-full">
-                      <Sparkles size={11} />
-                      Editor&apos;s Pick
-                    </div>
-                  </div>
-                  <div className="p-4">
-                    <p className="font-display text-base font-semibold text-foreground group-hover:text-accent transition-colors mb-1">
-                      {review.title}
-                    </p>
-                    <p className="font-body text-xs text-muted-foreground mb-2">{review.author}</p>
-                    <p className="font-body text-sm text-muted-foreground line-clamp-2 mb-3">
-                      {review.ogDescription}
-                    </p>
-                    <span className="text-accent text-xs font-body hover:underline">
-                      Read the review →
-                    </span>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
+          <LatestReviewsSection reviews={personalized} />
         </div>
       </section>
 
