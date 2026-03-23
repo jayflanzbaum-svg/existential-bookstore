@@ -34,9 +34,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       siteName: SITE_NAME,
       images: [
         {
-          url: `/og/review/${review.slug}?title=${encodeURIComponent(review.title)}&author=${encodeURIComponent(review.author)}`,
-          width: 1200,
-          height: 630,
+          url: review.localCoverUrl,
+          width: 400,
+          height: 600,
           alt: `${review.title} by ${review.author}`,
         },
       ],
@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
-      images: [`/og/review/${review.slug}?title=${encodeURIComponent(review.title)}&author=${encodeURIComponent(review.author)}`],
+      images: [review.localCoverUrl],
     },
   };
 }
