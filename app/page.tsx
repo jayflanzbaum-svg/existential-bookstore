@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
+import { ArrowRight } from 'lucide-react';
 import BookCard from '@/components/BookCard';
 import CategoryCard from '@/components/CategoryCard';
 import LatestReviewsSection from '@/components/LatestReviewsSection';
@@ -87,33 +88,73 @@ export default function HomePage() {
       {/* ── LATEST REVIEWS ───────────────────────────────────────── */}
       <section className="py-10 bg-muted/40 border-b border-border">
         <div className="container mx-auto px-4 md:px-6">
-          <p className="text-xs uppercase tracking-widest text-accent font-body mb-2">
-            Fresh Off the Shelf
-          </p>
-          <h2 className="font-display text-3xl font-bold text-foreground mb-8">
-            Latest Reviews
-          </h2>
+          <div className="flex items-end justify-between mb-8">
+            <div>
+              <p className="text-xs uppercase tracking-[0.2em] text-accent font-body font-semibold mb-2">
+                Fresh Off the Shelf
+              </p>
+              <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground">
+                Latest Reviews
+              </h2>
+            </div>
+            <Link
+              href="/reviews"
+              className="hidden md:inline-flex items-center gap-1.5 text-accent text-sm font-medium hover:underline font-body"
+            >
+              View all <ArrowRight className="h-3 w-3" />
+            </Link>
+          </div>
           <LatestReviewsSection reviews={personalized} />
+          <div className="text-center mt-8 md:hidden">
+            <Link
+              href="/reviews"
+              className="text-accent text-sm font-medium hover:underline inline-flex items-center gap-1.5 font-body"
+            >
+              View all reviews <ArrowRight className="h-3 w-3" />
+            </Link>
+          </div>
         </div>
       </section>
 
       {/* ── FEATURED REVIEWS ─────────────────────────────────────── */}
       <section className="py-20 bg-background">
         <div className="container mx-auto px-4 md:px-6">
-          <p className="text-xs uppercase tracking-widest text-accent font-body mb-2">Selected</p>
-          <h2 className="font-display text-3xl font-bold text-foreground mb-8">Featured Reviews</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+          <div className="flex items-end justify-between mb-12">
+            <div>
+              <p className="text-xs uppercase tracking-[0.2em] text-accent font-body font-semibold mb-2">
+                Selected
+              </p>
+              <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground">
+                Featured Reviews
+              </h2>
+            </div>
+            <Link
+              href="/reviews"
+              className="hidden md:inline-flex items-center gap-1.5 text-accent text-sm font-medium hover:underline font-body"
+            >
+              View all <ArrowRight className="h-3 w-3" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {featured.map((review, i) => (
               <BookCard
                 key={review.slug}
                 title={review.title}
                 author={review.author}
                 slug={review.slug}
-                coverUrl={review.coverUrl}
+                coverUrl={review.localCoverUrl}
                 rating={review.rating}
                 index={i}
               />
             ))}
+          </div>
+          <div className="text-center mt-8 md:hidden">
+            <Link
+              href="/reviews"
+              className="text-accent text-sm font-medium hover:underline inline-flex items-center gap-1.5 font-body"
+            >
+              View all reviews <ArrowRight className="h-3 w-3" />
+            </Link>
           </div>
         </div>
       </section>
@@ -121,11 +162,13 @@ export default function HomePage() {
       {/* ── BROWSE CATEGORIES ────────────────────────────────────── */}
       <section className="py-20 bg-sky/10">
         <div className="container mx-auto px-4 md:px-6">
-          <p className="text-xs uppercase tracking-widest text-accent font-body mb-2">Browse</p>
-          <h2 className="font-display text-3xl font-bold text-foreground mb-8">
+          <p className="text-xs uppercase tracking-[0.2em] text-accent font-body font-semibold mb-2">
+            Browse
+          </p>
+          <h2 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-12">
             Explore by Category
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {categories.map((cat, i) => (
               <CategoryCard
                 key={cat.slug}
@@ -137,6 +180,14 @@ export default function HomePage() {
                 index={i}
               />
             ))}
+          </div>
+          <div className="text-center mt-10">
+            <Link
+              href="/categories"
+              className="text-accent text-sm font-medium hover:underline inline-flex items-center gap-1.5 font-body"
+            >
+              View all categories <ArrowRight className="h-3 w-3" />
+            </Link>
           </div>
         </div>
       </section>
