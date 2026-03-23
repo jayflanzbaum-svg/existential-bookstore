@@ -3,21 +3,10 @@ import { NextRequest } from 'next/server';
 
 export const runtime = 'edge';
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { slug: string } }
-) {
-  const { searchParams } = new URL(req.url);
-  const slug = params.slug;
-
-  const title =
-    searchParams.get('title') ??
-    slug
-      .split('-')
-      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-      .join(' ');
-  const author = searchParams.get('author') ?? '';
-  const description = searchParams.get('desc') ?? '';
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const title = searchParams.get('title') || 'Book Review';
+  const author = searchParams.get('author') || '';
 
   return new ImageResponse(
     (
@@ -25,81 +14,23 @@ export async function GET(
         style={{
           width: '1200px',
           height: '630px',
-          background: 'linear-gradient(135deg, #10224C 0%, #1D3972 100%)',
+          backgroundColor: '#10224C',
           display: 'flex',
           flexDirection: 'column',
+          alignItems: 'center',
           justifyContent: 'center',
-          alignItems: 'flex-start',
-          padding: '80px',
+          padding: '60px',
         }}
       >
-        {/* Title */}
-        <div
-          style={{
-            fontSize: title.length > 40 ? '52px' : '64px',
-            fontWeight: 700,
-            color: '#f5f0e8',
-            lineHeight: 1.1,
-            marginBottom: '20px',
-            maxWidth: '1000px',
-          }}
-        >
+        <div style={{ color: '#f5f0e8', fontSize: '64px', fontWeight: 'bold', textAlign: 'center' }}>
           {title}
         </div>
-
-        {/* Author */}
-        {author && (
-          <div
-            style={{
-              fontSize: '28px',
-              color: '#74B1E7',
-              marginBottom: '24px',
-            }}
-          >
-            {author}
-          </div>
-        )}
-
-        {/* Description */}
-        {description && (
-          <div
-            style={{
-              fontSize: '20px',
-              color: 'rgba(245,240,232,0.65)',
-              maxWidth: '860px',
-              lineHeight: 1.5,
-            }}
-          >
-            {description}
-          </div>
-        )}
-
-        {/* Site name */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '48px',
-            right: '80px',
-            fontSize: '16px',
-            color: 'rgba(245,240,232,0.4)',
-            letterSpacing: '3px',
-            textTransform: 'uppercase',
-          }}
-        >
+        <div style={{ color: '#74B1E7', fontSize: '32px', marginTop: '24px' }}>
+          {author}
+        </div>
+        <div style={{ color: '#888888', fontSize: '20px', marginTop: '40px' }}>
           The Existential Bookstore
         </div>
-
-        {/* Accent line */}
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '0px',
-            left: '0px',
-            width: '100%',
-            height: '4px',
-            backgroundColor: '#2385E7',
-          }}
-        />
       </div>
     ),
     { width: 1200, height: 630 }
