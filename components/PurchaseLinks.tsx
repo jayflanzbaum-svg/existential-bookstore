@@ -1,4 +1,5 @@
 import type { PurchaseLink } from '@/lib/reviews';
+import { addAffiliateTag } from '@/lib/amazon';
 
 const TIER_LABELS: Record<string, string> = {
   softcover: 'Softcover',
@@ -23,7 +24,7 @@ export default function PurchaseLinks({ purchaseLinks }: Props) {
         {purchaseLinks.map((link) => (
           <div key={link.tier} className="flex flex-col items-start gap-1">
             <a
-              href={link.url}
+              href={addAffiliateTag(link.url)}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center px-4 py-2 rounded-md border border-accent text-accent text-sm font-body font-medium hover:bg-accent hover:text-accent-foreground transition-colors"
