@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <rect width="32" height="32" rx="6" fill="#0f1e2e"/>
+  <!-- Open book -->
+  <path d="M16 9 C16 9 11 8 7 9.5 L7 23 C11 21.5 16 22.5 16 22.5 C16 22.5 21 21.5 25 23 L25 9.5 C21 8 16 9 16 9Z" fill="#1a3a5c" stroke="#4a9eff" stroke-width="1"/>
+  <line x1="16" y1="9" x2="16" y2="22.5" stroke="#4a9eff" stroke-width="1"/>
+  <!-- Page lines left -->
+  <line x1="9.5" y1="13" x2="14.5" y2="12.5" stroke="#4a9eff" stroke-width="0.8" opacity="0.6"/>
+  <line x1="9.5" y1="15.5" x2="14.5" y2="15" stroke="#4a9eff" stroke-width="0.8" opacity="0.6"/>
+  <line x1="9.5" y1="18" x2="14.5" y2="17.5" stroke="#4a9eff" stroke-width="0.8" opacity="0.6"/>
+  <!-- Page lines right -->
+  <line x1="17.5" y1="12.5" x2="22.5" y2="13" stroke="#4a9eff" stroke-width="0.8" opacity="0.6"/>
+  <line x1="17.5" y1="15" x2="22.5" y2="15.5" stroke="#4a9eff" stroke-width="0.8" opacity="0.6"/>
+  <line x1="17.5" y1="17.5" x2="22.5" y2="18" stroke="#4a9eff" stroke-width="0.8" opacity="0.6"/>
+</svg>
