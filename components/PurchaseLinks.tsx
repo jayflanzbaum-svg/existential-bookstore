@@ -1,19 +1,20 @@
+import { ExternalLink } from 'lucide-react';
 import type { PurchaseLink } from '@/lib/reviews';
 import { addAffiliateTag } from '@/lib/amazon';
 
-const TIER_LABELS: Record<string, string> = {
-  softcover: 'Softcover',
-  hardcover: 'Hardcover',
-  first_edition: 'First Edition',
-  signed_copy: 'Signed Copy',
-};
-
 interface Props {
   purchaseLinks: PurchaseLink[];
+  amazonUrl?: string;
 }
 
-export default function PurchaseLinks({ purchaseLinks }: Props) {
-  if (!purchaseLinks || purchaseLinks.length === 0) return null;
+export default function PurchaseLinks({ purchaseLinks, amazonUrl }: Props) {
+  const firstEdition = purchaseLinks?.find((l) => l.tier === 'first_edition');
+  const otherLinks = purchaseLinks?.filter(
+    (l) => l.tier !== 'first_edition' && l.tier !== 'softcover' && l.tier !== 'hardcover'
+  ) ?? [];
+
+  const hasAny = amazonUrl || firstEdition || otherLinks.length > 0;
+  if (!hasAny) return null;
 
   return (
     <div>
@@ -21,22 +22,41 @@ export default function PurchaseLinks({ purchaseLinks }: Props) {
         Find this book:
       </p>
       <div className="flex flex-wrap gap-3">
-        {purchaseLinks.map((link) => (
-          <div key={link.tier} className="flex flex-col items-start gap-1">
-            <a
-              href={addAffiliateTag(link.url)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center px-4 py-2 rounded-md border border-accent text-accent text-sm font-body font-medium hover:bg-accent hover:text-accent-foreground transition-colors"
-            >
-              {TIER_LABELS[link.tier] ?? link.label}
-            </a>
-            {link.priceNote && (
-              <span className="text-xs text-muted-foreground font-body">
-                {link.priceNote}
-              </span>
-            )}
-          </div>
+        {amazonUrl && (
+          <a
+            href={addAffiliateTag(amazonUrl)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-accent hover:bg-accent/90 text-white text-sm font-body font-semibold transition-colors"
+          >
+            Buy on Amazon
+            <ExternalLink size={14} />
+          </a>
+        )}
+
+        {firstEdition && (
+          <a
+            href={firstEdition.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[hsl(var(--coral))] hover:bg-[hsl(var(--coral)/.85)] text-white text-sm font-body font-semibold transition-colors"
+          >
+            First Edition (Check availability)
+            <ExternalLink size={14} />
+          </a>
+        )}
+
+        {otherLinks.map((link) => (
+          <a
+            key={link.tier}
+            href={addAffiliateTag(link.url)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground text-sm font-body font-semibold transition-colors"
+          >
+            {link.label || link.tier}
+            <ExternalLink size={14} />
+          </a>
         ))}
       </div>
     </div>

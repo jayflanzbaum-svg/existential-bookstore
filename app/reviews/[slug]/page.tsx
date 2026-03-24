@@ -152,7 +152,7 @@ export default async function ReviewPage({ params }: Props) {
           {/* Purchase links */}
           {review.purchaseLinks && review.purchaseLinks.length > 0 && (
             <div className="mt-12 pt-8 border-t border-border">
-              <PurchaseLinks purchaseLinks={review.purchaseLinks} />
+              <PurchaseLinks purchaseLinks={review.purchaseLinks} amazonUrl={review.amazonUrl} />
             </div>
           )}
         </article>
