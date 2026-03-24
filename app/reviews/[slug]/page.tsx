@@ -3,10 +3,10 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { MDXRemote } from 'next-mdx-remote/rsc';
-import { Star } from 'lucide-react';
+import { Star, ShoppingCart, ExternalLink } from 'lucide-react';
 import { getReviewBySlug, getAllReviewSlugs } from '@/lib/reviews';
-import PurchaseLinks from '@/components/PurchaseLinks';
 import { SITE_NAME, SITE_URL } from '@/lib/siteConfig';
+import { addAffiliateTag } from '@/lib/amazon';
 
 export const revalidate = 60;
 
@@ -31,53 +31,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: review.ogDescription,
       url: `${SITE_URL}/reviews/${review.slug}`,
       siteName: SITE_NAME,
-      images: [
-        {
-          url: review.coverUrl,
-          width: 400,
-          height: 600,
-          alt: `${review.title} by ${review.author}`,
-        },
-      ],
+      images: [{ url: review.coverUrl, width: 400, height: 600, alt: `${review.title} by ${review.author}` }],
       type: 'article',
     },
-    twitter: {
-      card: 'summary_large_image',
-      images: [review.coverUrl],
-    },
+    twitter: { card: 'summary_large_image', images: [review.coverUrl] },
   };
-}
-
-function StarRating({ rating }: { rating: number }) {
-  const full = Math.floor(rating);
-  return (
-    <div className="flex items-center gap-1">
-      {Array.from({ length: 5 }, (_, i) => (
-        <Star
-          key={i}
-          size={16}
-          style={
-            i < full
-              ? { color: 'hsl(var(--coral))', fill: 'hsl(var(--coral))' }
-              : { color: 'hsl(var(--muted-foreground))' }
-          }
-        />
-      ))}
-      <span className="font-body text-sm text-muted-foreground ml-1">
-        {rating}/5
-      </span>
-    </div>
-  );
 }
 
 const mdxComponents = {
   a: ({ href, children }: { href?: string; children?: React.ReactNode }) => {
     if (href?.startsWith('/')) {
-      return (
-        <Link href={href} className="text-accent hover:underline">
-          {children}
-        </Link>
-      );
+      return <Link href={href} className="text-accent hover:underline">{children}</Link>;
     }
     return (
       <a href={href} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
@@ -91,9 +55,12 @@ export default async function ReviewPage({ params }: Props) {
   const review = await getReviewBySlug(params.slug);
   if (!review) notFound();
 
+  const firstEditionLink = review.purchaseLinks?.find((l) => l.tier === 'first_edition');
+  const authorSlug = review.authorSlugs?.[0];
+
   return (
     <div className="bg-background min-h-screen">
-      <div className="container mx-auto px-4 md:px-6 py-12 max-w-3xl">
+      <div className="container mx-auto px-4 md:px-6 py-12 max-w-4xl">
         {/* Back link */}
         <Link
           href="/categories"
@@ -103,56 +70,146 @@ export default async function ReviewPage({ params }: Props) {
         </Link>
 
         <article>
-          <div className="flex flex-col md:flex-row gap-8 mb-10">
-            {/* Cover */}
+          {/* ── TOP: cover + metadata ─────────────────────────── */}
+          <div className="flex flex-col md:flex-row gap-8 md:gap-10">
+            {/* Left — cover */}
             {review.coverUrl && (
-              <div className="flex-shrink-0">
-                <div className="relative w-[160px] md:w-[200px] shadow-lift rounded-md overflow-hidden">
-                  <Image
-                    src={review.coverUrl}
-                    alt={`${review.title} cover`}
-                    width={200}
-                    height={300}
-                    className="object-cover w-full"
-                  />
-                </div>
+              <div className="flex-shrink-0 flex justify-center md:justify-start">
+                <Image
+                  src={review.coverUrl}
+                  alt={`${review.title} cover`}
+                  width={220}
+                  height={330}
+                  className="max-w-[220px] w-full rounded-lg shadow-lift object-cover"
+                />
               </div>
             )}
 
-            {/* Meta */}
-            <div className="flex-1">
-              {/* Category badge */}
+            {/* Right — metadata */}
+            <div className="flex-1 min-w-0">
+              {/* 1. Category badge */}
               <Link
                 href={`/categories/${review.categorySlug}`}
-                className="inline-block text-xs font-body font-medium text-accent-foreground bg-accent px-2.5 py-0.5 rounded-full mb-4 hover:bg-accent/90 transition-colors"
+                className="inline-block text-xs uppercase tracking-widest font-semibold text-accent font-body mb-3 hover:underline"
               >
                 {review.category}
               </Link>
 
-              <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground mb-2 leading-tight">
+              {/* 2. Title */}
+              <h1 className="font-display text-3xl md:text-4xl font-bold text-foreground leading-tight mb-2">
                 {review.title}
               </h1>
-              <p className="font-body text-lg text-muted-foreground mb-1">
-                {review.author}
-              </p>
-              {review.publishedYear && (
-                <p className="font-body text-sm text-muted-foreground mb-3">
-                  {review.publishedYear}
+
+              {/* 3. Author */}
+              {authorSlug ? (
+                <Link
+                  href={`/authors/${authorSlug}`}
+                  className="font-body text-lg text-muted-foreground mt-1 hover:text-accent transition-colors"
+                >
+                  {review.author}
+                </Link>
+              ) : (
+                <p className="font-body text-lg text-muted-foreground mt-1">{review.author}</p>
+              )}
+
+              {/* 4. Star rating */}
+              {review.rating > 0 && (
+                <div className="inline-flex items-center gap-1 mt-3">
+                  {Array.from({ length: 5 }, (_, i) => {
+                    const filled = i < Math.floor(review.rating);
+                    const half = !filled && i < review.rating;
+                    return (
+                      <Star
+                        key={i}
+                        size={16}
+                        style={
+                          filled || half
+                            ? { color: 'hsl(var(--coral))', fill: 'hsl(var(--coral))' }
+                            : { color: 'hsl(var(--muted-foreground))' }
+                        }
+                      />
+                    );
+                  })}
+                  <span className="font-body text-sm font-medium text-foreground ml-1">
+                    {review.rating}
+                  </span>
+                  <span className="font-body text-sm text-muted-foreground">
+                    ({review.rating}/5)
+                  </span>
+                </div>
+              )}
+
+              {/* 5. Published + ISBN */}
+              {(review.publishedYear || review.isbn) && (
+                <p className="font-body text-sm text-muted-foreground mt-2">
+                  {[
+                    review.publishedYear ? `Published ${review.publishedYear}` : null,
+                    review.isbn ? `ISBN ${review.isbn}` : null,
+                  ]
+                    .filter(Boolean)
+                    .join(' · ')}
                 </p>
               )}
-              {review.rating > 0 && <StarRating rating={review.rating} />}
+
+              {/* 6. Purchase section divider */}
+              <div className="mt-6 mb-3 flex items-center gap-2 text-xs uppercase tracking-[0.15em] font-semibold text-muted-foreground font-body">
+                <ShoppingCart className="h-3.5 w-3.5" />
+                <span>Purchase</span>
+              </div>
+
+              {/* 7. Purchase buttons */}
+              <div className="flex flex-wrap gap-3">
+                {/* Buy on Amazon */}
+                {review.amazonUrl && (
+                  <a
+                    href={addAffiliateTag(review.amazonUrl)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-accent hover:bg-accent/90 text-white text-sm font-semibold font-body transition-colors"
+                  >
+                    Buy on Amazon
+                    <ExternalLink className="h-3.5 w-3.5" />
+                  </a>
+                )}
+
+                {/* Bookshop.org — always shown */}
+                <a
+                  href={`https://bookshop.org/search?keywords=${encodeURIComponent(review.title)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground text-sm font-semibold font-body transition-colors"
+                >
+                  Bookshop.org
+                  <ExternalLink className="h-3.5 w-3.5" />
+                </a>
+
+                {/* First Edition */}
+                {firstEditionLink && (
+                  <a
+                    href={firstEditionLink.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-[hsl(var(--coral))] hover:bg-[hsl(var(--coral)/.85)] text-white text-sm font-semibold font-body transition-colors"
+                  >
+                    First Edition (Check availability)
+                    <ExternalLink className="h-3.5 w-3.5" />
+                  </a>
+                )}
+              </div>
             </div>
           </div>
 
-          {/* Body */}
-          <div className="font-body text-foreground leading-[1.85] space-y-5 text-base md:text-[17px] prose prose-neutral max-w-none">
-            <MDXRemote source={review.content} components={mdxComponents} />
-          </div>
-
-          {/* Purchase links */}
-          {review.purchaseLinks && review.purchaseLinks.length > 0 && (
-            <div className="mt-12 pt-8 border-t border-border">
-              <PurchaseLinks purchaseLinks={review.purchaseLinks} amazonUrl={review.amazonUrl} />
+          {/* ── REVIEW BODY ───────────────────────────────────── */}
+          {review.content && (
+            <div className="border-t border-border mt-8 pt-8">
+              <h2 className="font-display text-2xl font-bold text-foreground mb-6">
+                {review.personalized ? 'Our Review' : 'About This Book'}
+              </h2>
+              <div className="bg-muted/40 rounded-xl p-6 md:p-8">
+                <div className="font-body text-base leading-relaxed text-foreground prose prose-neutral max-w-none">
+                  <MDXRemote source={review.content} components={mdxComponents} />
+                </div>
+              </div>
             </div>
           )}
         </article>
