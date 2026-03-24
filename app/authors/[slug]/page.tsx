@@ -5,18 +5,21 @@ import BookCard from '@/components/BookCard';
 import { getAuthorWithBooks, getAuthorSlugsWithBooks } from '@/lib/authors';
 import { SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 
+export const revalidate = 60;
+
 interface Props {
   params: { slug: string };
 }
 
 export async function generateStaticParams() {
-  return getAuthorSlugsWithBooks().map((slug) => ({ slug }));
+  const slugs = await getAuthorSlugsWithBooks();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   let author;
   try {
-    ({ author } = getAuthorWithBooks(params.slug));
+    ({ author } = await getAuthorWithBooks(params.slug));
   } catch {
     return {};
   }
@@ -34,11 +37,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function AuthorPage({ params }: Props) {
+export default async function AuthorPage({ params }: Props) {
   let author;
   let books;
   try {
-    ({ author, books } = getAuthorWithBooks(params.slug));
+    ({ author, books } = await getAuthorWithBooks(params.slug));
   } catch {
     notFound();
   }

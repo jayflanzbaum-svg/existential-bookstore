@@ -1,6 +1,4 @@
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
+import { supabase } from './supabase';
 
 export interface PurchaseLink {
   tier: string;
@@ -10,12 +8,12 @@ export interface PurchaseLink {
 }
 
 export interface Review {
+  id: string;
   slug: string;
   title: string;
   author: string;
   authorSlugs: string[];
   coverUrl: string;
-  localCoverUrl: string;
   isbn: string;
   ogDescription: string;
   publishedYear: number | null;
@@ -24,66 +22,58 @@ export interface Review {
   featured: boolean;
   personalized: boolean;
   rating: number;
+  amazonUrl: string;
   purchaseLinks: PurchaseLink[];
   content: string;
 }
 
-const contentDir = path.join(process.cwd(), 'content', 'reviews');
-const coversDir = path.join(process.cwd(), 'public', 'covers');
-
-export function getReviewBySlug(slug: string): Review {
-  const filePath = path.join(contentDir, `${slug}.mdx`);
-  const raw = fs.readFileSync(filePath, 'utf-8');
-  const { data, content } = matter(raw);
-
+function mapBook(row: Record<string, unknown>): Review {
   return {
-    slug: data.slug ?? slug,
-    title: data.title ?? '',
-    author: data.author ?? '',
-    authorSlugs: Array.isArray(data.authorSlugs) ? data.authorSlugs : [],
-    coverUrl: data.coverUrl ?? '',
-    localCoverUrl: fs.existsSync(path.join(coversDir, `${slug}.jpg`))
-      ? `/covers/${slug}.jpg`
-      : (data.coverUrl ?? ''),
-    isbn: data.isbn ?? '',
-    ogDescription: data.ogDescription ?? '',
-    publishedYear: data.publishedYear ?? null,
-    category: data.category ?? '',
-    categorySlug: data.categorySlug ?? '',
-    featured: data.featured ?? false,
-    personalized: data.personalized ?? false,
-    rating: data.rating ?? 0,
-    purchaseLinks: Array.isArray(data.purchaseLinks) ? data.purchaseLinks : [],
-    content,
+    id: row.id as string,
+    slug: row.slug as string,
+    title: row.title as string,
+    author: row.author as string,
+    authorSlugs: (row.author_slugs as string[]) || [],
+    coverUrl: (row.cover_url as string) || '',
+    isbn: (row.isbn as string) || '',
+    ogDescription: (row.og_description as string) || '',
+    publishedYear: (row.published_year as number) || null,
+    category: (row.category as string) || '',
+    categorySlug: (row.category_slug as string) || '',
+    featured: (row.featured as boolean) || false,
+    personalized: (row.personalized as boolean) || false,
+    rating: (row.rating as number) || 0,
+    amazonUrl: (row.amazon_url as string) || '',
+    purchaseLinks: (row.purchase_links as PurchaseLink[]) || [],
+    content: (row.review as string) || '',
   };
 }
 
-export function getAllReviewSlugs(): string[] {
-  return fs
-    .readdirSync(contentDir)
-    .filter((f) => f.endsWith('.mdx'))
-    .map((f) => f.replace(/\.mdx$/, ''));
+export async function getReviews(): Promise<Review[]> {
+  const { data } = await supabase.from('books').select('*').order('title');
+  return (data || []).map(mapBook);
 }
 
-export function getReviews(): Review[] {
-  return getAllReviewSlugs()
-    .map((slug) => getReviewBySlug(slug))
-    .sort((a, b) => {
-      if (a.personalized !== b.personalized) return a.personalized ? -1 : 1;
-      if (a.featured !== b.featured) return a.featured ? -1 : 1;
-      return a.title.localeCompare(b.title);
-    });
+export async function getReviewBySlug(slug: string): Promise<Review | null> {
+  const { data } = await supabase
+    .from('books')
+    .select('*')
+    .eq('slug', slug)
+    .single();
+  return data ? mapBook(data) : null;
 }
 
-export function getPersonalizedReviews(): Review[] {
-  return getReviews()
-    .filter((r) => r.personalized)
-    .sort((a, b) => a.title.localeCompare(b.title));
+export async function getAllReviewSlugs(): Promise<string[]> {
+  const { data } = await supabase.from('books').select('slug');
+  return (data || []).map((r) => r.slug as string);
 }
 
-export function getFeaturedReviews(limit = 8): Review[] {
-  const featured = getReviews().filter((r) => r.featured);
-  // Fisher-Yates shuffle — runs once per build for static pages
+export async function getFeaturedReviews(limit = 8): Promise<Review[]> {
+  const { data } = await supabase
+    .from('books')
+    .select('*')
+    .eq('featured', true);
+  const featured = (data || []).map(mapBook);
   for (let i = featured.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [featured[i], featured[j]] = [featured[j], featured[i]];
@@ -91,6 +81,20 @@ export function getFeaturedReviews(limit = 8): Review[] {
   return featured.slice(0, limit);
 }
 
-export function getReviewsByCategory(categorySlug: string): Review[] {
-  return getReviews().filter((r) => r.categorySlug === categorySlug);
+export async function getPersonalizedReviews(): Promise<Review[]> {
+  const { data } = await supabase
+    .from('books')
+    .select('*')
+    .eq('personalized', true)
+    .order('title');
+  return (data || []).map(mapBook);
+}
+
+export async function getReviewsByCategory(categorySlug: string): Promise<Review[]> {
+  const { data } = await supabase
+    .from('books')
+    .select('*')
+    .eq('category_slug', categorySlug)
+    .order('title');
+  return (data || []).map(mapBook);
 }

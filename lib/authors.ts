@@ -1,34 +1,49 @@
-import authorsData from './authors.json';
+import { supabase } from './supabase';
 import { getReviews } from './reviews';
 import type { Review } from './reviews';
 
 export interface Author {
+  id: string;
   slug: string;
   name: string;
   bio: string;
 }
 
-export function getAuthors(): Author[] {
-  return authorsData as Author[];
+function mapAuthor(row: Record<string, unknown>): Author {
+  return {
+    id: row.id as string,
+    slug: row.slug as string,
+    name: row.name as string,
+    bio: (row.bio as string) || '',
+  };
 }
 
-export function getAuthorBySlug(slug: string): Author | undefined {
-  return (authorsData as Author[]).find((a) => a.slug === slug);
+export async function getAuthors(): Promise<Author[]> {
+  const { data } = await supabase.from('authors').select('*').order('name');
+  return (data || []).map(mapAuthor);
 }
 
-export function getAuthorWithBooks(slug: string): {
-  author: Author;
-  books: Review[];
-} {
-  const author = getAuthorBySlug(slug);
+export async function getAuthorBySlug(slug: string): Promise<Author | undefined> {
+  const { data } = await supabase
+    .from('authors')
+    .select('*')
+    .eq('slug', slug)
+    .single();
+  return data ? mapAuthor(data) : undefined;
+}
+
+export async function getAuthorWithBooks(
+  slug: string
+): Promise<{ author: Author; books: Review[] }> {
+  const author = await getAuthorBySlug(slug);
   if (!author) throw new Error(`Author not found: ${slug}`);
-  const books = getReviews().filter((r) => r.authorSlugs.includes(slug));
+  const allReviews = await getReviews();
+  const books = allReviews.filter((r) => r.authorSlugs.includes(slug));
   return { author, books };
 }
 
-/** Only author slugs that have at least one book in the catalog */
-export function getAuthorSlugsWithBooks(): string[] {
-  const reviews = getReviews();
+export async function getAuthorSlugsWithBooks(): Promise<string[]> {
+  const reviews = await getReviews();
   const slugSet = new Set<string>();
   reviews.forEach((r) => r.authorSlugs.forEach((s) => slugSet.add(s)));
   return Array.from(slugSet);

@@ -4,10 +4,14 @@ import { getAllCategorySlugs } from '@/lib/categories';
 import { getAuthorSlugsWithBooks } from '@/lib/authors';
 import { SITE_URL } from '@/lib/siteConfig';
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const reviewSlugs = getAllReviewSlugs();
-  const categorySlugs = getAllCategorySlugs();
-  const authorSlugs = getAuthorSlugsWithBooks();
+export const revalidate = 3600;
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const [reviewSlugs, categorySlugs, authorSlugs] = await Promise.all([
+    getAllReviewSlugs(),
+    getAllCategorySlugs(),
+    getAuthorSlugsWithBooks(),
+  ]);
 
   const staticPages: MetadataRoute.Sitemap = [
     { url: SITE_URL, priority: 1.0, changeFrequency: 'weekly' },

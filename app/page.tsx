@@ -9,6 +9,8 @@ import { getFeaturedReviews, getPersonalizedReviews } from '@/lib/reviews';
 import { getCategories } from '@/lib/categories';
 import { SITE_URL } from '@/lib/siteConfig';
 
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: 'The Existential Bookstore — Books for the Insatiably Curious',
   description:
@@ -24,10 +26,13 @@ export const metadata: Metadata = {
   twitter: { card: 'summary_large_image', images: ['/og/home'] },
 };
 
-export default function HomePage() {
-  const personalized = getPersonalizedReviews();
-  const featured = getFeaturedReviews(8);
-  const categories = getCategories().slice(0, 6);
+export default async function HomePage() {
+  const [personalized, featured, allCategories] = await Promise.all([
+    getPersonalizedReviews(),
+    getFeaturedReviews(8),
+    getCategories(),
+  ]);
+  const categories = allCategories.slice(0, 6);
 
   return (
     <>
@@ -142,7 +147,7 @@ export default function HomePage() {
                 title={review.title}
                 author={review.author}
                 slug={review.slug}
-                coverUrl={review.localCoverUrl}
+                coverUrl={review.coverUrl}
                 rating={review.rating}
                 index={i}
               />

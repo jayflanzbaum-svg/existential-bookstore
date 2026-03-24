@@ -3,13 +3,15 @@ import BookCard from '@/components/BookCard';
 import { getReviews } from '@/lib/reviews';
 import { SITE_NAME } from '@/lib/siteConfig';
 
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: `All Reviews — ${SITE_NAME}`,
   description: 'Every book reviewed on The Existential Bookstore.',
 };
 
-export default function ReviewsPage() {
-  const reviews = getReviews();
+export default async function ReviewsPage() {
+  const reviews = await getReviews();
 
   return (
     <div className="bg-background min-h-screen">
@@ -33,7 +35,7 @@ export default function ReviewsPage() {
               title={review.title}
               author={review.author}
               slug={review.slug}
-              coverUrl={review.localCoverUrl}
+              coverUrl={review.coverUrl}
               rating={review.rating}
               index={i}
             />

@@ -5,18 +5,21 @@ import BookCard from '@/components/BookCard';
 import { getCategoryWithBooks, getAllCategorySlugs } from '@/lib/categories';
 import { SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 
+export const revalidate = 60;
+
 interface Props {
   params: { slug: string };
 }
 
 export async function generateStaticParams() {
-  return getAllCategorySlugs().map((slug) => ({ slug }));
+  const slugs = await getAllCategorySlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   let category;
   try {
-    ({ category } = getCategoryWithBooks(params.slug));
+    ({ category } = await getCategoryWithBooks(params.slug));
   } catch {
     return {};
   }
@@ -46,11 +49,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-export default function CategoryPage({ params }: Props) {
+export default async function CategoryPage({ params }: Props) {
   let category;
   let reviews;
   try {
-    ({ category, books: reviews } = getCategoryWithBooks(params.slug));
+    ({ category, books: reviews } = await getCategoryWithBooks(params.slug));
   } catch {
     notFound();
   }

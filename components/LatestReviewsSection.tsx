@@ -28,9 +28,9 @@ export default function LatestReviewsSection({ reviews }: Props) {
             <div className="flex flex-col h-full">
               {/* Top half — cover */}
               <div className="relative bg-gradient-to-br from-accent/10 via-primary/5 to-accent/5 p-5 flex items-center justify-center">
-                {review.localCoverUrl ? (
+                {review.coverUrl ? (
                   <Image
-                    src={review.localCoverUrl}
+                    src={review.coverUrl}
                     alt={review.title}
                     width={112}
                     height={160}

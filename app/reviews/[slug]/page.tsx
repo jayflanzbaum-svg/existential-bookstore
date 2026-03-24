@@ -8,21 +8,20 @@ import { getReviewBySlug, getAllReviewSlugs } from '@/lib/reviews';
 import PurchaseLinks from '@/components/PurchaseLinks';
 import { SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 
+export const revalidate = 60;
+
 interface Props {
   params: { slug: string };
 }
 
 export async function generateStaticParams() {
-  return getAllReviewSlugs().map((slug) => ({ slug }));
+  const slugs = await getAllReviewSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  let review;
-  try {
-    review = getReviewBySlug(params.slug);
-  } catch {
-    return {};
-  }
+  const review = await getReviewBySlug(params.slug);
+  if (!review) return {};
 
   return {
     title: `${review.title} by ${review.author}`,
@@ -34,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       siteName: SITE_NAME,
       images: [
         {
-          url: review.localCoverUrl,
+          url: review.coverUrl,
           width: 400,
           height: 600,
           alt: `${review.title} by ${review.author}`,
@@ -44,7 +43,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
-      images: [review.localCoverUrl],
+      images: [review.coverUrl],
     },
   };
 }
@@ -88,13 +87,9 @@ const mdxComponents = {
   },
 };
 
-export default function ReviewPage({ params }: Props) {
-  let review;
-  try {
-    review = getReviewBySlug(params.slug);
-  } catch {
-    notFound();
-  }
+export default async function ReviewPage({ params }: Props) {
+  const review = await getReviewBySlug(params.slug);
+  if (!review) notFound();
 
   return (
     <div className="bg-background min-h-screen">

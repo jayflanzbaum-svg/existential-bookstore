@@ -3,6 +3,8 @@ import { getCategories } from '@/lib/categories';
 import CategoryCard from '@/components/CategoryCard';
 import { SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 
+export const revalidate = 60;
+
 export const metadata: Metadata = {
   title: 'Categories',
   description: 'Browse book reviews by category at The Existential Bookstore.',
@@ -15,8 +17,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function CategoriesPage() {
-  const categories = getCategories();
+export default async function CategoriesPage() {
+  const categories = await getCategories();
 
   return (
     <div className="bg-background min-h-screen">
