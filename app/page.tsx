@@ -5,6 +5,7 @@ import { ArrowRight } from 'lucide-react';
 import BookCard from '@/components/BookCard';
 import CategoryCard from '@/components/CategoryCard';
 import LatestReviewsSection from '@/components/LatestReviewsSection';
+import NewsletterCTA from '@/components/NewsletterCTA';
 import { getFeaturedReviews, getPersonalizedReviews } from '@/lib/reviews';
 import { getCategories } from '@/lib/categories';
 import { SITE_URL } from '@/lib/siteConfig';
@@ -211,12 +212,7 @@ export default async function HomePage() {
             New reviews, curated reading lists, and the occasional dispatch from the
             stacks — delivered to your inbox.
           </p>
-          <Link
-            href="/newsletter"
-            className="inline-flex items-center px-8 py-3 rounded-md bg-sky text-accent-foreground font-body font-medium hover:bg-sky/90 transition-colors"
-          >
-            Subscribe
-          </Link>
+          <NewsletterCTA />
         </div>
       </section>
     </>
