@@ -154,7 +154,7 @@ export default async function ReviewPage({ params }: Props) {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-accent hover:bg-accent/90 text-white text-sm font-semibold font-body transition-colors"
                   >
-                    Buy on Amazon
+                    Amazon
                     <ExternalLink className="h-3.5 w-3.5" />
                   </a>
                 )}
