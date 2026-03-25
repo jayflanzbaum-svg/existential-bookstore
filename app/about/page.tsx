@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Image from 'next/image';
 import { SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 
 export const metadata: Metadata = {
@@ -13,49 +14,11 @@ export const metadata: Metadata = {
   },
 };
 
-const sections = [
-  {
-    label: 'My Story',
-    heading: 'It Started With the Hardy Boys',
-    body: [
-      'Before I understood what a book was — before I had any framework for what reading could do — I was already hooked. The Hardy Boys. Encyclopedia Brown. The Boxcar Children. My parents had arranged them on a low shelf in my bedroom, and I worked through them the way other children worked through puzzles: methodically, with a pleasure that was partly the story and partly the texture of the pages.',
-      'Then came the school book fair, which I remember as one of the genuinely ceremonial occasions of childhood. The gymnasium lined with folding tables, the paperbacks arranged by color and size, the smell of new books mixed with the industrial cleaner they used on the gym floor. I would arrive with a carefully budgeted amount and leave with more than I could carry. The books changed every year; the feeling never did.',
-      'By high school I had found the section of the library that no one else seemed to use: the philosophy shelves, the cultural criticism, the books that seemed to be in conversation with each other across decades. I did not always understand what I was reading. I kept reading anyway. The not-understanding felt important, like a door I was learning to lean against.',
-    ],
-  },
-  {
-    label: 'How We Got Here',
-    heading: 'A Shared Shelf, a Shared Life',
-    body: [
-      'I met my wife in college, in a seminar on postwar American literature. She was reading Pynchon for pleasure. I knew immediately that we would be spending our lives together.',
-      'We spent years imagining a bookstore. Not the kind that exists as a business plan or a spreadsheet — the imaginary kind, the kind that lives in conversation. A small shop in a college town, we said. A place with armchairs and a cat and a back room for events. A place organized not by genre but by question: books about solitude together with books about connection; books about making things across the aisle from books about understanding them.',
-      'The physical bookstore remains imaginary. But the project of curating — of reading widely and saying clearly what a book does and why it matters — that is real, and it is this site.',
-    ],
-  },
-  {
-    label: 'The Vision',
-    heading: 'More Than Reviews',
-    body: [
-      'The Existential Bookstore is a reading journal made public. It began as notes I kept for myself — the kind of record that lets you go back and remember not just what a book said but what it felt like to read it, and what was happening in your life when you did.',
-      'Over time it has become something more deliberate. I want to build a space where book recommendations are genuinely personal — not algorithmic, not driven by affiliate economics, but shaped by the kind of reading that changes how you think. The newsletter is where that conversation happens in its most direct form: a dispatch from one reader to another, honest about what worked and what didn\'t.',
-      'There are larger ambitions: first editions, a physical presence someday, partnerships with independent bookstores whose values I trust. But the core of it is simpler than any of that. I want to tell you about books worth reading, and tell you why they are worth reading, and trust you to decide what to do with that information.',
-    ],
-  },
-  {
-    label: 'Why "Existential"',
-    heading: 'The Name Is a Question',
-    body: [
-      'People sometimes ask whether the name means this is a site about existentialist philosophy specifically. It is not — though existentialism is well represented in the catalog, because it is a tradition that has mattered to me.',
-      'The name is an adjective applied more broadly. An existential question is one that concerns the conditions of existence itself: how to live, what to value, what to do with the fact of being conscious and finite and capable of both great cruelty and great tenderness. Not every book asks these questions explicitly. But the books I return to tend to ask them, or to model a way of being in the world that implies an answer.',
-      'There is also something I mean by "existential" that is more personal. A reading life is a life examined through other lives. Every book you read seriously is a negotiation between their experience and yours — a testing of your assumptions against a mind that had different ones. That negotiation is, I think, one of the better things a person can do with the time they have.',
-    ],
-  },
-];
-
 export default function AboutPage() {
   return (
     <div className="bg-background min-h-screen">
-      {/* Hero strip */}
+
+      {/* ── Hero strip ─────────────────────────────────────────── */}
       <div className="gradient-navy py-16">
         <div className="container mx-auto px-4 md:px-6 max-w-2xl">
           <p className="text-xs uppercase tracking-widest text-sky-light font-body mb-4">
@@ -70,28 +33,131 @@ export default function AboutPage() {
         </div>
       </div>
 
-      {/* Editorial sections */}
+      {/* ── Editorial sections ─────────────────────────────────── */}
       <div className="container mx-auto px-4 md:px-6 max-w-2xl py-16 space-y-16">
-        {sections.map((section) => (
-          <section key={section.label}>
-            <p className="text-xs uppercase tracking-widest text-accent font-body mb-2">
-              {section.label}
-            </p>
-            <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-6">
-              {section.heading}
-            </h2>
-            <div className="space-y-4">
-              {section.body.map((para, i) => (
-                <p
-                  key={i}
-                  className="font-body text-base md:text-[17px] text-foreground leading-[1.85]"
-                >
-                  {para}
-                </p>
-              ))}
+
+        {/* My Story */}
+        <section>
+          <p className="text-xs uppercase tracking-widest text-accent font-body mb-2">
+            My Story
+          </p>
+          <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-6">
+            About the Existential Bookstore
+          </h2>
+
+          {/* On the Road photo */}
+          <figure className="mb-8">
+            <div className="rounded-xl overflow-hidden bg-muted">
+              <Image
+                src="/images/about-on-the-road.jpg"
+                alt="A well-loved copy of On the Road by Jack Kerouac"
+                width={672}
+                height={448}
+                className="w-full object-cover"
+              />
             </div>
-          </section>
-        ))}
+            <figcaption className="mt-2 text-center font-body text-xs text-muted-foreground italic">
+              A well-loved copy of On the Road by Jack Kerouac
+            </figcaption>
+          </figure>
+
+          <div className="space-y-4">
+            <p className="font-body text-base md:text-[17px] text-foreground leading-[1.85]">
+              I grew up surrounded by books. My aunt worked at a bookstore, my uncle was an avid reader, and both filled my childhood with stories. While other kids were outside playing, I was finding entire Hardy Boys series in neighborhood garbage heaps and reading every single one. I treasured school book fairs where the cafeteria transformed into a wonderland. I collected every book I read, and each one became a marker of who I was becoming.
+            </p>
+            <p className="font-body text-base md:text-[17px] text-foreground leading-[1.85]">
+              In eighth grade, a teacher asked if I had read On the Road by Jack Kerouac. That question changed everything. It opened a door to the Beats, to Kerouac and Ginsberg and Anaïs Nin, to philosophy and existence itself. Suddenly I was reading at fifteen what most people would not encounter until college.
+            </p>
+            <p className="font-body text-base md:text-[17px] text-foreground leading-[1.85]">
+              I discovered the existentialists, then Gabriel García Márquez and magical realism. I fell in love with the Renaissance and the humanistic philosophy that reminds us life is more than survival, more than commerce alone—it is art, philosophy, cuisine, beauty, and meaning. And I became fascinated by science fiction writers like William Gibson and Neal Stephenson, who asked hard questions about technology and the future we are building. This bookstore is my way of sharing that world with you.
+            </p>
+          </div>
+        </section>
+
+        {/* How We Got Here */}
+        <section>
+          <p className="text-xs uppercase tracking-widest text-accent font-body mb-2">
+            How We Got Here
+          </p>
+          <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-6">
+            A Shared Shelf, a Shared Life
+          </h2>
+
+          {/* Founders photo */}
+          <figure className="mb-8">
+            <div className="rounded-xl overflow-hidden bg-muted">
+              <Image
+                src="/images/about-founders.jpg"
+                alt="The founders sharing a kiss on an old rail cart in the Everglades"
+                width={672}
+                height={504}
+                className="w-full object-cover"
+              />
+            </div>
+            <figcaption className="mt-2 text-center font-body text-xs text-muted-foreground italic">
+              The founders sharing a kiss on an old rail cart in the Everglades
+            </figcaption>
+          </figure>
+
+          <div className="space-y-4">
+            <p className="font-body text-base md:text-[17px] text-foreground leading-[1.85]">
+              My wife and I fell in love over our shared passion for art, music, and literature. We navigate the world through song lyrics and passages from books and poems, through images from our favorite artists. We speak to each other in these languages.
+            </p>
+            <p className="font-body text-base md:text-[17px] text-foreground leading-[1.85]">
+              So when we met on an online dating site, which is far less romantic than the story we prefer to tell, we immediately rewrote it. We say we met at an existential bookstore. She was reading Sartre, I was reading Camus, and we caught each other out of the corners of our eyes and struck up a conversation that changed everything.
+            </p>
+            <p className="font-body text-base md:text-[17px] text-foreground leading-[1.85]">
+              From that fictional meeting place, we imagined something larger: a real bookstore in a bucolic college town or artsy community. We envisioned an old downtown brick building we would renovate and fill with books, comfortable chairs, the smell of coffee, and jazz playing softly in the background. Our cats and dogs would curl up with guests. My wife would make exotic elixir drinks. It would be a sanctuary, a place of solace where art, music, and literature converge.
+            </p>
+            <p className="font-body text-base md:text-[17px] text-foreground leading-[1.85]">
+              For years, this place lived only in our minds—a magical realist dream. Now we are making it real. This website is the beginning of that dream. It is our way of curating the books and authors that shaped us, and inviting you into the world we have always imagined.
+            </p>
+          </div>
+        </section>
+
+        {/* The Vision */}
+        <section>
+          <p className="text-xs uppercase tracking-widest text-accent font-body mb-2">
+            The Vision
+          </p>
+          <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-6">
+            More Than Reviews
+          </h2>
+          <div className="space-y-4">
+            <p className="font-body text-base md:text-[17px] text-foreground leading-[1.85]">
+              We&apos;re building more than a bookshelf. In the near future, The Existential Bookstore will offer personalized newsletter recommendations powered by an understanding of your reading taste—not just genres you like, but the themes, moods, and questions that move you.
+            </p>
+            <p className="font-body text-base md:text-[17px] text-foreground leading-[1.85]">
+              Eventually, we&apos;ll stock first editions and signed copies of the books we love most, sourced carefully and offered to readers who understand their value. But for now, every purchase link supports us through our affiliate partnerships.
+            </p>
+          </div>
+        </section>
+
+        {/* Why "Existential" */}
+        <section>
+          <p className="text-xs uppercase tracking-widest text-accent font-body mb-2">
+            Why &ldquo;Existential&rdquo;
+          </p>
+          <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground mb-6">
+            The Name Is a Question
+          </h2>
+          <div className="space-y-4">
+            <p className="font-body text-base md:text-[17px] text-foreground leading-[1.85]">
+              Because every great book is existential. Every act of reading is a choice to spend your finite time engaging with another consciousness. We believe that literature—at its best—doesn&apos;t just describe existence. It deepens it.
+            </p>
+          </div>
+
+          {/* Pull quote */}
+          <blockquote className="mt-10 border-l-4 border-accent pl-6">
+            <p className="font-display text-xl md:text-2xl italic text-foreground leading-snug">
+              &ldquo;One must imagine the reader happy.&rdquo;
+            </p>
+            <footer className="mt-2 font-body text-sm text-muted-foreground">
+              — with apologies to Camus
+            </footer>
+          </blockquote>
+        </section>
+
       </div>
     </div>
   );
