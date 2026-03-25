@@ -47,8 +47,8 @@ export default function AboutPage() {
 
           {/* On the Road photo — floated left, text wraps right */}
           <div className="mb-6">
-            <figure className="float-left mr-5 mb-2 w-36 md:w-44 flex-shrink-0">
-              <div className="border border-border rounded-lg overflow-hidden bg-muted shadow-sm">
+            <figure className="float-left mr-6 mb-2 w-36 md:w-44 flex-shrink-0 rotate-3">
+              <div className="border-2 border-accent/50 rounded-lg overflow-hidden bg-muted shadow-md">
                 <Image
                   src="/images/about-on-the-road.jpg"
                   alt="A well-loved copy of On the Road by Jack Kerouac"
@@ -84,8 +84,8 @@ export default function AboutPage() {
 
           {/* Founders photo — floated left, text wraps right */}
           <div className="mb-6">
-            <figure className="float-left mr-5 mb-2 w-36 md:w-44 flex-shrink-0">
-              <div className="border border-border rounded-lg overflow-hidden bg-muted shadow-sm">
+            <figure className="float-left mr-6 mb-2 w-36 md:w-44 flex-shrink-0">
+              <div className="border-2 border-accent/50 rounded-lg overflow-hidden bg-muted shadow-md">
                 <Image
                   src="/images/about-founders.jpg"
                   alt="The founders sharing a kiss on an old rail cart in the Everglades"
