@@ -2,14 +2,6 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { PlusCircle, Trash2 } from 'lucide-react';
-
-interface PurchaseLink {
-  tier: string;
-  label: string;
-  url: string;
-  priceNote: string;
-}
 
 interface BookFormData {
   id?: string;
@@ -27,7 +19,6 @@ interface BookFormData {
   rating: string;
   amazon_url: string;
   review: string;
-  purchase_links: PurchaseLink[];
 }
 
 interface Props {
@@ -59,7 +50,6 @@ export default function BookForm({ initial, categories }: Props) {
     rating: '0',
     amazon_url: '',
     review: '',
-    purchase_links: [],
     ...initial,
   });
 
@@ -74,25 +64,6 @@ export default function BookForm({ initial, categories }: Props) {
   function onCategoryChange(slug: string) {
     const cat = categories.find((c) => c.slug === slug);
     setForm((f) => ({ ...f, category_slug: slug, category: cat?.name ?? '' }));
-  }
-
-  function addLink() {
-    setForm((f) => ({
-      ...f,
-      purchase_links: [...f.purchase_links, { tier: 'softcover', label: 'Softcover', url: '', priceNote: '' }],
-    }));
-  }
-
-  function updateLink(i: number, field: keyof PurchaseLink, value: string) {
-    setForm((f) => {
-      const links = [...f.purchase_links];
-      links[i] = { ...links[i], [field]: value };
-      return { ...f, purchase_links: links };
-    });
-  }
-
-  function removeLink(i: number) {
-    setForm((f) => ({ ...f, purchase_links: f.purchase_links.filter((_, j) => j !== i) }));
   }
 
   async function save() {
@@ -151,9 +122,18 @@ export default function BookForm({ initial, categories }: Props) {
           <label className={labelClass}>Cover URL</label>
           <input className={inputClass} value={form.cover_url} onChange={(e) => set('cover_url', e.target.value)} />
         </div>
-        <div>
-          <label className={labelClass}>Amazon URL</label>
-          <input className={inputClass} value={form.amazon_url} onChange={(e) => set('amazon_url', e.target.value)} />
+        <div className="md:col-span-2">
+          <label className="block text-sm font-medium font-body text-foreground mb-1">Amazon URL</label>
+          <input
+            type="url"
+            value={form.amazon_url}
+            onChange={(e) => setForm((f) => ({ ...f, amazon_url: e.target.value }))}
+            placeholder="https://www.amazon.com/dp/XXXXXXXXXX"
+            className="w-full border border-border rounded-lg px-3 py-2 text-sm font-body bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-accent"
+          />
+          <p className="text-xs text-muted-foreground mt-1 font-body">
+            Use the clean dp/ format. The affiliate tag is added automatically.
+          </p>
         </div>
         <div>
           <label className={labelClass}>Published Year</label>
@@ -203,43 +183,6 @@ export default function BookForm({ initial, categories }: Props) {
           value={form.review}
           onChange={(e) => set('review', e.target.value)}
         />
-      </div>
-
-      {/* Purchase links */}
-      <div>
-        <div className="flex items-center justify-between mb-3">
-          <label className={labelClass}>Purchase Links</label>
-          <button onClick={addLink} className="inline-flex items-center gap-1 text-accent text-xs font-body hover:underline">
-            <PlusCircle size={12} /> Add link
-          </button>
-        </div>
-        <div className="space-y-3">
-          {form.purchase_links.map((link, i) => (
-            <div key={i} className="grid grid-cols-2 md:grid-cols-4 gap-2 items-end">
-              <div>
-                <label className={labelClass}>Tier</label>
-                <input className={inputClass} value={link.tier} onChange={(e) => updateLink(i, 'tier', e.target.value)} placeholder="softcover" />
-              </div>
-              <div>
-                <label className={labelClass}>Label</label>
-                <input className={inputClass} value={link.label} onChange={(e) => updateLink(i, 'label', e.target.value)} placeholder="Softcover" />
-              </div>
-              <div>
-                <label className={labelClass}>URL</label>
-                <input className={inputClass} value={link.url} onChange={(e) => updateLink(i, 'url', e.target.value)} />
-              </div>
-              <div className="flex gap-2">
-                <div className="flex-1">
-                  <label className={labelClass}>Price note</label>
-                  <input className={inputClass} value={link.priceNote} onChange={(e) => updateLink(i, 'priceNote', e.target.value)} />
-                </div>
-                <button onClick={() => removeLink(i)} className="mb-0.5 text-muted-foreground hover:text-destructive transition-colors self-end pb-2">
-                  <Trash2 size={14} />
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
 
       <div className="flex items-center justify-between pt-4 border-t border-border">
