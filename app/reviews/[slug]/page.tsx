@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { MDXRemote } from 'next-mdx-remote/rsc';
 import { Star, ShoppingCart, ExternalLink } from 'lucide-react';
 import { getReviewBySlug, getAllReviewSlugs } from '@/lib/reviews';
 import { SITE_NAME, SITE_URL } from '@/lib/siteConfig';
@@ -38,18 +37,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-const mdxComponents = {
-  a: ({ href, children }: { href?: string; children?: React.ReactNode }) => {
-    if (href?.startsWith('/')) {
-      return <Link href={href} className="text-accent hover:underline">{children}</Link>;
-    }
-    return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className="text-accent hover:underline">
-        {children}
-      </a>
-    );
-  },
-};
 
 export default async function ReviewPage({ params }: Props) {
   const review = await getReviewBySlug(params.slug);
@@ -205,10 +192,12 @@ export default async function ReviewPage({ params }: Props) {
               <h2 className="font-display text-2xl font-bold text-foreground mb-6">
                 {review.personalized ? 'Our Review' : 'About This Book'}
               </h2>
-              <div className="bg-muted/40 rounded-xl p-6 md:p-8">
-                <div className="font-body text-base leading-relaxed text-foreground prose prose-neutral max-w-none">
-                  <MDXRemote source={review.content} components={mdxComponents} />
-                </div>
+              <div className="bg-muted/40 rounded-xl p-6 md:p-8 font-body text-base leading-relaxed text-foreground">
+                {review.content.split(/\n\n+/).map((paragraph, i) => (
+                  <p key={i} className="mb-4 last:mb-0">
+                    {paragraph.trim()}
+                  </p>
+                ))}
               </div>
             </div>
           )}
