@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.80.0",
     "@next-auth/supabase-adapter": "^0.2.1",
     "@supabase/supabase-js": "^2.100.0",
     "framer-motion": "^11.3.0",

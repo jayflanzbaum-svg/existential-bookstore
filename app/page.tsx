@@ -27,11 +27,12 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  const [personalized, featured, allCategories] = await Promise.all([
+  const [allPersonalized, featured, allCategories] = await Promise.all([
     getPersonalizedReviews(),
     getFeaturedReviews(8),
     getCategories(),
   ]);
+  const personalized = allPersonalized.slice(0, 5);
   const categories = allCategories.slice(0, 6);
 
   return (

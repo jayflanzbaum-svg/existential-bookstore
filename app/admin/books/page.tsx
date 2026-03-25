@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { PlusCircle, Search, Edit, BookOpen, Trash2, ChevronUp, ChevronDown, ChevronsUpDown } from 'lucide-react';
@@ -65,6 +66,7 @@ const inputClass = 'px-3 py-2.5 bg-card border border-border rounded-md font-bod
 // ── Main component ─────────────────────────────────────────────────────────
 
 export default function AdminBooksPage() {
+  const router = useRouter();
   const [tab, setTab] = useState<Tab>('books');
 
   // Books state
@@ -277,7 +279,11 @@ export default function AdminBooksPage() {
                   </thead>
                   <tbody>
                     {displayed.map((book) => (
-                      <tr key={book.id} className="border-b border-border last:border-0 hover:bg-muted/30 transition-colors">
+                      <tr
+                        key={book.id}
+                        onClick={() => router.push(`/admin/books/${book.id}/edit`)}
+                        className="border-b border-border last:border-0 hover:bg-muted/30 transition-colors cursor-pointer"
+                      >
                         {/* Cover */}
                         <td className="px-4 py-3">
                           {book.cover_url ? (
@@ -312,17 +318,17 @@ export default function AdminBooksPage() {
                         </td>
 
                         {/* Featured toggle */}
-                        <td className="px-4 py-3 text-center">
+                        <td className="px-4 py-3 text-center" onClick={(e) => e.stopPropagation()}>
                           <Toggle on={book.featured} onToggle={() => toggle(book.id, 'featured', book.featured)} />
                         </td>
 
                         {/* Personalized toggle */}
-                        <td className="px-4 py-3 text-center">
+                        <td className="px-4 py-3 text-center" onClick={(e) => e.stopPropagation()}>
                           <Toggle on={book.personalized} onToggle={() => toggle(book.id, 'personalized', book.personalized)} />
                         </td>
 
                         {/* Actions */}
-                        <td className="px-4 py-3">
+                        <td className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
                           <div className="flex items-center justify-end gap-3">
                             <Link
                               href={`/admin/books/${book.id}/edit`}

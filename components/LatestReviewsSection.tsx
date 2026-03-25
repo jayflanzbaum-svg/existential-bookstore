@@ -2,8 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Sparkles, BookOpen, ArrowRight } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { BookOpen, ArrowRight } from 'lucide-react';
 import type { Review } from '@/lib/reviews';
 
 interface Props {
@@ -11,65 +10,46 @@ interface Props {
 }
 
 export default function LatestReviewsSection({ reviews }: Props) {
+  if (reviews.length === 0) return null;
+
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-      {reviews.map((review, i) => (
-        <motion.div
+    <div className="flex gap-5 overflow-x-auto pb-2 -mx-1 px-1 scrollbar-hide">
+      {reviews.map((review) => (
+        <Link
           key={review.slug}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: i * 0.15 }}
-          className="h-full"
+          href={`/reviews/${review.slug}`}
+          className="group flex-shrink-0 w-48 md:w-52 flex flex-col rounded-xl border border-border bg-card overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300"
         >
-          <Link
-            href={`/reviews/${review.slug}`}
-            className="group block h-full rounded-xl border border-border bg-card overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300"
-          >
-            <div className="flex flex-col h-full">
-              {/* Top half — cover */}
-              <div className="relative bg-gradient-to-br from-accent/10 via-primary/5 to-accent/5 p-5 flex items-center justify-center">
-                {review.coverUrl ? (
-                  <Image
-                    src={review.coverUrl}
-                    alt={review.title}
-                    width={112}
-                    height={160}
-                    className="w-28 h-40 object-cover rounded-lg shadow-lift group-hover:scale-[1.03] transition-transform duration-300"
-                  />
-                ) : (
-                  <div className="w-28 h-40 flex items-center justify-center bg-secondary rounded-lg">
-                    <BookOpen size={40} className="text-muted-foreground" />
-                  </div>
-                )}
+          {/* Cover */}
+          <div className="relative bg-gradient-to-br from-accent/10 via-primary/5 to-accent/5 p-4 flex items-center justify-center h-52">
+            {review.coverUrl ? (
+              <Image
+                src={review.coverUrl}
+                alt={review.title}
+                width={96}
+                height={144}
+                className="w-24 h-36 object-cover rounded-md shadow-lift group-hover:scale-[1.03] transition-transform duration-300"
+              />
+            ) : (
+              <div className="w-24 h-36 flex items-center justify-center bg-secondary rounded-md">
+                <BookOpen size={32} className="text-muted-foreground" />
               </div>
+            )}
+          </div>
 
-              {/* Bottom half — meta */}
-              <div className="flex-1 p-5 flex flex-col justify-center">
-                <span className="inline-flex items-center gap-1.5 text-accent text-xs font-semibold font-body mb-3">
-                  <Sparkles size={12} />
-                  Editor&apos;s Pick
-                </span>
-
-                <p className="font-display text-lg font-bold text-foreground leading-snug group-hover:text-accent transition-colors">
-                  {review.title}
-                </p>
-
-                <p className="text-muted-foreground font-body text-sm mt-1.5">
-                  {review.author}
-                </p>
-
-                <p className="text-sm text-muted-foreground font-body mt-3 leading-relaxed line-clamp-2">
-                  {review.ogDescription}
-                </p>
-
-                <span className="inline-flex items-center gap-1.5 text-accent text-sm font-medium mt-4 group-hover:gap-2.5 transition-all font-body">
-                  Read the review
-                  <ArrowRight size={14} />
-                </span>
-              </div>
-            </div>
-          </Link>
-        </motion.div>
+          {/* Meta */}
+          <div className="p-4 flex flex-col flex-1">
+            <p className="font-display text-sm font-bold text-foreground leading-snug group-hover:text-accent transition-colors line-clamp-2">
+              {review.title}
+            </p>
+            <p className="text-muted-foreground font-body text-xs mt-1 line-clamp-1">
+              {review.author}
+            </p>
+            <span className="inline-flex items-center gap-1 text-accent text-xs font-medium mt-auto pt-3 group-hover:gap-1.5 transition-all font-body">
+              Read <ArrowRight size={11} />
+            </span>
+          </div>
+        </Link>
       ))}
     </div>
   );
