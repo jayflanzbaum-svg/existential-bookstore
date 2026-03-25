@@ -2,6 +2,7 @@
   "framework": "nextjs",
   "env": {
     "NEXT_PUBLIC_AMAZON_ASSOCIATE_ID": "existential0d-20",
+    "NEXT_PUBLIC_BOOKSHOP_AFFILIATE_ID": "122581",
     "NEXTAUTH_URL": "https://existentialbookstore.com",
     "BUTTONDOWN_API_KEY": "@buttondown_api_key"
   }

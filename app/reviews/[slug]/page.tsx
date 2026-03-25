@@ -6,6 +6,7 @@ import { Star, ShoppingCart, ExternalLink } from 'lucide-react';
 import { getReviewBySlug, getAllReviewSlugs } from '@/lib/reviews';
 import { SITE_NAME, SITE_URL } from '@/lib/siteConfig';
 import { addAffiliateTag } from '@/lib/amazon';
+import { bookshopUrl } from '@/lib/bookshop';
 
 export const revalidate = 60;
 
@@ -161,7 +162,7 @@ export default async function ReviewPage({ params }: Props) {
 
                 {/* Bookshop.org — always shown */}
                 <a
-                  href={`https://bookshop.org/search?keywords=${encodeURIComponent(review.title)}`}
+                  href={bookshopUrl(review.isbn, review.title)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary hover:bg-primary/90 text-primary-foreground text-sm font-semibold font-body transition-colors"
