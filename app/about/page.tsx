@@ -54,7 +54,7 @@ export default function AboutPage() {
                   alt="A well-loved copy of On the Road by Jack Kerouac"
                   width={176}
                   height={220}
-                  className="w-full object-cover rotate-3 scale-110"
+                  className="w-full object-cover rotate-[5deg] scale-110"
                 />
               </div>
             </figure>
