@@ -1,6 +1,7 @@
 {
   "framework": "nextjs",
   "env": {
-    "NEXT_PUBLIC_AMAZON_ASSOCIATE_ID": "existential0d-20"
+    "NEXT_PUBLIC_AMAZON_ASSOCIATE_ID": "existential0d-20",
+    "NEXTAUTH_URL": "https://existentialbookstore.com"
   }
 }
