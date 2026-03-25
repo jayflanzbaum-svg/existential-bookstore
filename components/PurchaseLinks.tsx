@@ -29,7 +29,7 @@ export default function PurchaseLinks({ purchaseLinks, amazonUrl }: Props) {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-accent hover:bg-accent/90 text-white text-sm font-body font-semibold transition-colors"
           >
-            Buy on Amazon
+            Amazon
             <ExternalLink size={14} />
           </a>
         )}
