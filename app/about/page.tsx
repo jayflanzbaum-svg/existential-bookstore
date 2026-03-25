@@ -45,32 +45,31 @@ export default function AboutPage() {
             About the Existential Bookstore
           </h2>
 
-          {/* On the Road photo */}
-          <figure className="mb-8">
-            <div className="rounded-xl overflow-hidden bg-muted">
-              <Image
-                src="/images/about-on-the-road.jpg"
-                alt="A well-loved copy of On the Road by Jack Kerouac"
-                width={672}
-                height={448}
-                className="w-full object-cover"
-              />
+          {/* On the Road photo — floated left, text wraps right */}
+          <div className="mb-6">
+            <figure className="float-left mr-5 mb-2 w-36 md:w-44 flex-shrink-0">
+              <div className="border border-border rounded-lg overflow-hidden bg-muted shadow-sm">
+                <Image
+                  src="/images/about-on-the-road.jpg"
+                  alt="A well-loved copy of On the Road by Jack Kerouac"
+                  width={176}
+                  height={220}
+                  className="w-full object-cover"
+                />
+              </div>
+            </figure>
+            <div className="space-y-4">
+              <p className="font-body text-base md:text-[17px] text-foreground leading-[1.85]">
+                I grew up surrounded by books. My aunt worked at a bookstore, my uncle was an avid reader, and both filled my childhood with stories. While other kids were outside playing, I was finding entire Hardy Boys series in neighborhood garbage heaps and reading every single one. I treasured school book fairs where the cafeteria transformed into a wonderland. I collected every book I read, and each one became a marker of who I was becoming.
+              </p>
+              <p className="font-body text-base md:text-[17px] text-foreground leading-[1.85]">
+                In eighth grade, a teacher asked if I had read <em>On the Road</em> by Jack Kerouac. That question changed everything. It opened a door to the Beats, to Kerouac and Ginsberg and Anaïs Nin, to philosophy and existence itself. Suddenly I was reading at fifteen what most people would not encounter until college.
+              </p>
+              <p className="font-body text-base md:text-[17px] text-foreground leading-[1.85]">
+                I discovered the existentialists, then Gabriel García Márquez and magical realism. I fell in love with the Renaissance and the humanistic philosophy that reminds us life is more than survival, more than commerce alone—it is art, philosophy, cuisine, beauty, and meaning. And I became fascinated by science fiction writers like William Gibson and Neal Stephenson, who asked hard questions about technology and the future we are building. This bookstore is my way of sharing that world with you.
+              </p>
             </div>
-            <figcaption className="mt-2 text-center font-body text-xs text-muted-foreground italic">
-              A well-loved copy of On the Road by Jack Kerouac
-            </figcaption>
-          </figure>
-
-          <div className="space-y-4">
-            <p className="font-body text-base md:text-[17px] text-foreground leading-[1.85]">
-              I grew up surrounded by books. My aunt worked at a bookstore, my uncle was an avid reader, and both filled my childhood with stories. While other kids were outside playing, I was finding entire Hardy Boys series in neighborhood garbage heaps and reading every single one. I treasured school book fairs where the cafeteria transformed into a wonderland. I collected every book I read, and each one became a marker of who I was becoming.
-            </p>
-            <p className="font-body text-base md:text-[17px] text-foreground leading-[1.85]">
-              In eighth grade, a teacher asked if I had read On the Road by Jack Kerouac. That question changed everything. It opened a door to the Beats, to Kerouac and Ginsberg and Anaïs Nin, to philosophy and existence itself. Suddenly I was reading at fifteen what most people would not encounter until college.
-            </p>
-            <p className="font-body text-base md:text-[17px] text-foreground leading-[1.85]">
-              I discovered the existentialists, then Gabriel García Márquez and magical realism. I fell in love with the Renaissance and the humanistic philosophy that reminds us life is more than survival, more than commerce alone—it is art, philosophy, cuisine, beauty, and meaning. And I became fascinated by science fiction writers like William Gibson and Neal Stephenson, who asked hard questions about technology and the future we are building. This bookstore is my way of sharing that world with you.
-            </p>
+            <div className="clear-both" />
           </div>
         </section>
 
@@ -83,22 +82,19 @@ export default function AboutPage() {
             A Shared Shelf, a Shared Life
           </h2>
 
-          {/* Founders photo */}
-          <figure className="mb-8">
-            <div className="rounded-xl overflow-hidden bg-muted">
-              <Image
-                src="/images/about-founders.jpg"
-                alt="The founders sharing a kiss on an old rail cart in the Everglades"
-                width={672}
-                height={504}
-                className="w-full object-cover"
-              />
-            </div>
-            <figcaption className="mt-2 text-center font-body text-xs text-muted-foreground italic">
-              The founders sharing a kiss on an old rail cart in the Everglades
-            </figcaption>
-          </figure>
-
+          {/* Founders photo — floated left, text wraps right */}
+          <div className="mb-6">
+            <figure className="float-left mr-5 mb-2 w-36 md:w-44 flex-shrink-0">
+              <div className="border border-border rounded-lg overflow-hidden bg-muted shadow-sm">
+                <Image
+                  src="/images/about-founders.jpg"
+                  alt="The founders sharing a kiss on an old rail cart in the Everglades"
+                  width={176}
+                  height={220}
+                  className="w-full object-cover"
+                />
+              </div>
+            </figure>
           <div className="space-y-4">
             <p className="font-body text-base md:text-[17px] text-foreground leading-[1.85]">
               My wife and I fell in love over our shared passion for art, music, and literature. We navigate the world through song lyrics and passages from books and poems, through images from our favorite artists. We speak to each other in these languages.
@@ -112,6 +108,8 @@ export default function AboutPage() {
             <p className="font-body text-base md:text-[17px] text-foreground leading-[1.85]">
               For years, this place lived only in our minds—a magical realist dream. Now we are making it real. This website is the beginning of that dream. It is our way of curating the books and authors that shaped us, and inviting you into the world we have always imagined.
             </p>
+          </div>
+          <div className="clear-both" />
           </div>
         </section>
 
